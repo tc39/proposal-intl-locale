@@ -1,0 +1,249 @@
+<!doctype html>
+<head><meta charset="utf-8">
+<title>Intl.Locale</title><script type="application/json" id="menu-search-biblio">[{"type":"table","id":"table-locale-options","number":1,"caption":"Table 1: Supported options","namespace":"<no location>","location":"","key":"Table 1: Supported options"},{"type":"op","aoid":"InitializeLocale","refId":"sec-InitializeLocale","location":"","key":"InitializeLocale"},{"type":"clause","id":"sec-InitializeLocale","aoid":"InitializeLocale","title":"InitializeLocale (tag, options)","titleHTML":"InitializeLocale (<var>tag</var>, options)","number":"1.1.1","namespace":"<no location>","location":"","key":"InitializeLocale (tag, options)"},{"type":"table","id":"table-datetimeformat-hourcycles","number":2,"caption":"Table 2: Supported hour cycles","namespace":"<no location>","location":"","key":"Table 2: Supported hour cycles"},{"type":"op","aoid":"IsOptionValueSupported","refId":"sec-IsOptionValueSupported","location":"","key":"IsOptionValueSupported"},{"type":"clause","id":"sec-IsOptionValueSupported","aoid":"IsOptionValueSupported","title":"IsOptionValueSupported (option, value)","titleHTML":"IsOptionValueSupported (<var>option</var>, <var>value</var>)","number":"1.1.2","namespace":"<no location>","location":"","key":"IsOptionValueSupported (option, value)"},{"type":"clause","id":"sec-intl-locale-abstracts","aoid":null,"title":"Abstract Operations for Locale Objects","titleHTML":"Abstract Operations for Locale Objects","number":"1.1","namespace":"<no location>","location":"","key":"Abstract Operations for Locale Objects"},{"type":"clause","id":"sec-Intl.Locale","aoid":null,"title":"Intl.Locale(tag[, options])","titleHTML":"Intl.Locale(tag[, options])","number":"1.2.1","namespace":"<no location>","location":"","key":"Intl.Locale(tag[, options])"},{"type":"clause","id":"sec-intl-locale-constructor","aoid":null,"title":"The Intl.Locale Constructor","titleHTML":"The Intl.Locale Constructor","number":"1.2","namespace":"<no location>","location":"","key":"The Intl.Locale Constructor"},{"type":"clause","id":"sec-Intl.Locale.prototype","aoid":null,"title":"Intl.Locale.prototype","titleHTML":"Intl.Locale.prototype","number":"1.3.1","namespace":"<no location>","location":"","key":"Intl.Locale.prototype"},{"type":"clause","id":"sec-Intl.Locale-internal-slots","aoid":null,"title":"Internal slots","titleHTML":"Internal slots","number":"1.3.2","namespace":"<no location>","location":"","key":"Internal slots"},{"type":"clause","id":"sec-properties-of-intl-locale-constructor","aoid":null,"title":"Properties of the Intl.Locale Constructor","titleHTML":"Properties of the Intl.Locale Constructor","number":"1.3","namespace":"<no location>","location":"","key":"Properties of the Intl.Locale Constructor"},{"type":"clause","id":"sec-Intl.Locale.prototype.constructor","aoid":null,"title":"Intl.Locale.prototype.constructor","titleHTML":"Intl.Locale.prototype.constructor","number":"1.4.1","namespace":"<no location>","location":"","key":"Intl.Locale.prototype.constructor"},{"type":"clause","id":"sec-Intl.Locale.prototype-@@tostringtag","aoid":null,"title":"Intl.Locale.prototype[ @@toStringTag ]","titleHTML":"Intl.Locale.prototype[ @@toStringTag ]","number":"1.4.2","namespace":"<no location>","location":"","key":"Intl.Locale.prototype[ @@toStringTag ]"},{"type":"clause","id":"sec-Intl.ListFormat.prototype.format","aoid":null,"title":"Intl.ListFormat.prototype.format ([ list ])","titleHTML":"Intl.ListFormat.prototype.format ([ list ])","number":"1.4.3","namespace":"<no location>","location":"","key":"Intl.ListFormat.prototype.format ([ list ])"},{"type":"clause","id":"sec-properties-of-intl-locale-prototype-object","aoid":null,"title":"Properties of the Intl.Locale Prototype Object","titleHTML":"Properties of the Intl.Locale Prototype Object","number":"1.4","namespace":"<no location>","location":"","key":"Properties of the Intl.Locale Prototype Object"},{"type":"clause","id":"sec-properties-of-intl-locale-instances","aoid":null,"title":"Properties of Intl.Locale Instances","titleHTML":"Properties of Intl.Locale Instances","number":"1.5","namespace":"<no location>","location":"","key":"Properties of Intl.Locale Instances"},{"type":"clause","id":"locale-objects","aoid":null,"title":"Locale Objects","titleHTML":"Locale Objects","number":"1","namespace":"<no location>","location":"","key":"Locale Objects"},{"type":"clause","id":"sec-copyright-and-software-license","aoid":null,"title":"Copyright & Software License","titleHTML":"Copyright &amp; Software License","number":"A","namespace":"<no location>","location":"","key":"Copyright & Software License"}]</script></head><body><div id="menu-toggle">☰</div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle">◢</span><a href="#locale-objects" title="Locale Objects"><span class="secnum">1</span> Locale Objects</a><ol class="toc"><li><span class="item-toggle">◢</span><a href="#sec-intl-locale-abstracts" title="Abstract Operations for Locale Objects"><span class="secnum">1.1</span> Abstract Operations for Locale Objects</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-InitializeLocale" title="InitializeLocale (tag, options)"><span class="secnum">1.1.1</span> InitializeLocale (<var>tag</var>, options)</a></li><li><span class="item-toggle-none"></span><a href="#sec-IsOptionValueSupported" title="IsOptionValueSupported (option, value)"><span class="secnum">1.1.2</span> IsOptionValueSupported (<var>option</var>, <var>value</var>)</a></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-intl-locale-constructor" title="The Intl.Locale Constructor"><span class="secnum">1.2</span> The Intl.Locale Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-Intl.Locale" title="Intl.Locale(tag[, options])"><span class="secnum">1.2.1</span> Intl.Locale(tag[, options])</a></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-properties-of-intl-locale-constructor" title="Properties of the Intl.Locale Constructor"><span class="secnum">1.3</span> Properties of the Intl.Locale Constructor</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-Intl.Locale.prototype" title="Intl.Locale.prototype"><span class="secnum">1.3.1</span> Intl.Locale.prototype</a></li><li><span class="item-toggle-none"></span><a href="#sec-Intl.Locale-internal-slots" title="Internal slots"><span class="secnum">1.3.2</span> Internal slots</a></li></ol></li><li><span class="item-toggle">◢</span><a href="#sec-properties-of-intl-locale-prototype-object" title="Properties of the Intl.Locale Prototype Object"><span class="secnum">1.4</span> Properties of the Intl.Locale Prototype Object</a><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-Intl.Locale.prototype.constructor" title="Intl.Locale.prototype.constructor"><span class="secnum">1.4.1</span> Intl.Locale.prototype.constructor</a></li><li><span class="item-toggle-none"></span><a href="#sec-Intl.Locale.prototype-@@tostringtag" title="Intl.Locale.prototype[ @@toStringTag ]"><span class="secnum">1.4.2</span> Intl.Locale.prototype[ @@toStringTag ]</a></li><li><span class="item-toggle-none"></span><a href="#sec-Intl.ListFormat.prototype.format" title="Intl.ListFormat.prototype.format ([ list ])"><span class="secnum">1.4.3</span> Intl.ListFormat.prototype.format ([ list ])</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-properties-of-intl-locale-instances" title="Properties of Intl.Locale Instances"><span class="secnum">1.5</span> Properties of Intl.Locale Instances</a></li></ol></li><li><span class="item-toggle-none"></span><a href="#sec-copyright-and-software-license" title="Copyright &amp; Software License"><span class="secnum">A</span> Copyright &amp; Software License</a></li></ol></div></div><h1 class="version">Stage 1 Draft / October 7, 2016</h1><h1 class="title">Intl.Locale</h1>
+<script src="https://bterlson.github.io/ecmarkup/ecmarkup.js" defer=""></script>
+<link rel="stylesheet" href="https://bterlson.github.io/ecmarkup/elements.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/solarized_light.min.css">
+
+<emu-import href="./locale.html"><emu-clause id="locale-objects">
+  <h1><span class="secnum">1</span>Locale Objects<span class="utils"><span class="anchor"><a href="#locale-objects">#</a></span></span></h1>
+
+  <emu-clause id="sec-intl-locale-abstracts">
+    <h1><span class="secnum">1.1</span>Abstract Operations for Locale Objects<span class="utils"><span class="anchor"><a href="#sec-intl-locale-abstracts">#</a></span></span></h1>
+
+    <emu-table id="table-locale-options"><figure><figcaption>Table 1: Supported options</figcaption>
+      
+      <table class="real-table">
+        <thead>
+          <tr>
+            <td>Name</td>
+            <td>Option</td>
+            <td>Extension key</td>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td>Calendar</td>
+          <td>calendar</td>
+          <td>ca</td>
+        </tr>
+        <tr>
+          <td>Collation</td>
+          <td>collation</td>
+          <td>co</td>
+        </tr>
+        <tr>
+          <td>Currency</td>
+          <td>currency</td>
+          <td>cu</td>
+        </tr>
+        <tr>
+          <td>HourCycle</td>
+          <td>hourCycle</td>
+          <td>hc</td>
+        </tr>
+        <tr>
+          <td>CaseFirst</td>
+          <td>caseFirst</td>
+          <td>kf</td>
+        </tr>
+        <tr>
+          <td>Numeric</td>
+          <td>numeric</td>
+          <td>kn</td>
+        </tr>
+        <tr>
+          <td>NumberinSystem</td>
+          <td>numberingSystem</td>
+          <td>nu</td>
+        </tr>
+        <tr>
+          <td>TimeZone</td>
+          <td>timeZone</td>
+          <td>tz</td>
+        </tr>
+      </tbody></table>
+    </figure></emu-table>
+
+    <emu-clause id="sec-InitializeLocale" aoid="InitializeLocale">
+      <h1><span class="secnum">1.1.1</span>InitializeLocale (<var>tag</var>, options)<span class="utils"><span class="anchor"><a href="#sec-InitializeLocale">#</a></span></span></h1>
+
+      <p>
+        The abstract operation InitializeLocale accepts the arguments <var>locale</var>, and <var>options</var>. It initializes a new Locale object. It performs the following steps:
+      
+      </p>
+
+      <emu-alg><ol><li>If <var>locale</var>.[[InitializedIntlObject]] is <emu-val>true</emu-val>, throw a <emu-val>TypeError</emu-val> exception.</li><li>Set <var>locale</var>.[[InitializedIntlObject]] to <emu-val>true</emu-val>.</li><li>Let <var>r</var> be DeconstructLanguageTag(<var>tag</var>).</li><li>Set <var>locale</var>.[[Locale]] to res.[[Locale]].</li><li>If <var>options</var> is <emu-val>undefined</emu-val>, then<ol><li>Let <var>options</var> be <emu-xref aoid="ObjectCreate"><a href="https://tc39.github.io/ecma262/#sec-objectcreate">ObjectCreate</a></emu-xref>(<emu-val>%ObjectPrototype%</emu-val>).</li></ol></li><li>Else<ol><li>Let <var>options</var> be ? <emu-xref aoid="ToObject"><a href="https://tc39.github.io/ecma262/#sec-toobject">ToObject</a></emu-xref>(<var>options</var>).</li></ol></li><li>Let <var>optionKeys</var> be ? <var>options</var>.[[OwnPropertyKeys]]().</li><li>For each <var>key</var> in <var>optionKeys</var>,<ol><li>If <var>key</var> matches a Option column of the row in <emu-xref href="#table-locale-options"><a href="#table-locale-options">Table 1</a></emu-xref>, then: <ol><li>Let <var>value</var> be ? <emu-xref aoid="Get"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>options</var>, <var>key</var>).</li><li>If the result of <emu-xref aoid="IsOptionValueSupported"><a href="#sec-IsOptionValueSupported">IsOptionValueSupported</a></emu-xref>(<var>fieldName</var>, <var>value</var>) is <emu-val>false</emu-val>, throw a <emu-val>RangeError</emu-val> exception.</li><li>Let <var>fieldName</var> be the value from a column Name in <emu-xref href="#table-locale-options"><a href="#table-locale-options">Table 1</a></emu-xref>, which corresponds to the value <var>key</var> from column Option. </li><li>Set <var>locale</var>.[[<var>fieldName</var>]] to <var>value</var>.</li></ol></li></ol></li><li>If <var>res</var>.[[Extensions]] has key <emu-val>"u"</emu-val>, then<ol><li>Let <var>unicodeSubtags</var> be UnicodeExtensionSubtags(res.[[Extensions]]['u']).</li><li>Let <var>i</var> be <emu-val>0</emu-val>.</li><li>Let <var>len</var> be <emu-xref aoid="Get"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>unicodeSubtags</var>, <emu-val>"length"</emu-val>).</li><li>Repeat while <var>i</var> &lt; <var>len</var>:<ol><li>Let <var>key</var> be <emu-xref aoid="Get"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>unicodeSubtags</var>, <emu-xref aoid="ToString"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>i</var>)).</li><li>If <var>key</var> matches a Extension key column of the row in <emu-xref href="#table-locale-options"><a href="#table-locale-options">Table 1</a></emu-xref>, then: <ol><li>Increment <var>i</var> by 1.</li><li>Let <var>value</var> be ? <emu-xref aoid="Get"><a href="https://tc39.github.io/ecma262/#sec-get-o-p">Get</a></emu-xref>(<var>unicodeSubtags</var>, <emu-xref aoid="ToString"><a href="https://tc39.github.io/ecma262/#sec-tostring">ToString</a></emu-xref>(<var>i</var>)).</li><li>Let <var>fieldName</var> be the value from a column Name in <emu-xref href="#table-locale-options"><a href="#table-locale-options">Table 1</a></emu-xref>, which corresponds to the value <var>key</var> from column Extension keys. </li><li>If <var>locale</var>.[[<var>fieldName</var>]] doesn't exists:<ol><li>If the result of <emu-xref aoid="IsOptionValueSupported"><a href="#sec-IsOptionValueSupported">IsOptionValueSupported</a></emu-xref>(<var>fieldName</var>, <var>value</var>) is <emu-val>false</emu-val>, throw a <emu-val>RangeError</emu-val> exception.</li></ol></li><li>Set <var>locale</var>.[[<var>fieldName</var>]] to <var>value</var>.</li></ol></li><li>Increment <var>i</var> by 1.
+      </li></ol></li></ol></li></ol></emu-alg>
+
+    </emu-clause>
+
+    <emu-table id="table-datetimeformat-hourcycles"><figure><figcaption>Table 2: Supported hour cycles</figcaption>
+      
+      <table class="real-table">
+        <thead>
+          <tr>
+            <td>Value</td>
+            <td>Description</td>
+          </tr>
+        </thead>
+        <tbody><tr>
+          <td>h12</td>
+          <td>12-hour clock</td>
+        </tr>
+        <tr>
+          <td>h24</td>
+          <td>24-hour clock</td>
+        </tr>
+      </tbody></table>
+    </figure></emu-table>
+
+    <emu-clause id="sec-IsOptionValueSupported" aoid="IsOptionValueSupported">
+      <h1><span class="secnum">1.1.2</span>IsOptionValueSupported (<var>option</var>, <var>value</var>)<span class="utils"><span class="anchor"><a href="#sec-IsOptionValueSupported">#</a></span></span></h1>
+
+      <p>
+        The abstract operation IsOptionValueSupported accepts the arguments <var>option</var> and <var>value</var>. It returns if the given value is a supported value for the given option.
+      
+      </p>
+
+      <emu-alg><ol><li>If <var>option</var> equals <emu-val>"Calendar"</emu-val>, then:<ol><li>If <var>value</var> matches one of the calendars supported by the system, then:<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"Collation"</emu-val>, then:<ol><li>If <var>value</var> matches "type" given in Unicode Technical Standard 35 for the collation, except that the values <emu-val>"standard"</emu-val> and <emu-val>"search"</emu-val> are not allowed, while the value <emu-val>"default"</emu-val> is allowed.<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"Currency"</emu-val>, then:<ol><li>Return IsWellFormedCurrencyCode(<var>value</var>).</li></ol></li><li>If <var>option</var> equals <emu-val>"hourCycle"</emu-val>, then:<ol><li>If <var>value</var> matches a Value column of the row in <emu-xref href="#table-datetimeformat-hourcycles"><a href="#table-datetimeformat-hourcycles">Table 2</a></emu-xref>, then: <ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"CaseFirst"</emu-val>, then:<ol><li>If <var>value</var> matches one of the values specified in <emu-xref href="#table-collator-options"></emu-xref>., then:<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"Numeric"</emu-val>, then:<ol><li>If <var>value</var> is a Boolean, then:<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"NumberingSystem"</emu-val>, then:<ol><li>If <var>value</var> matches one of the values in the "Numbering System" column of <emu-xref href="#table-numbering-system-digits"></emu-xref>, then:<ol><li>Return <emu-val>true</emu-val>.</li></ol></li><li>Else,<ol><li>Return <emu-val>false</emu-val>.</li></ol></li></ol></li><li>If <var>option</var> equals <emu-val>"TimeZone"</emu-val>, then:<ol><li>Return IsValidTimeZoneName(<var>value</var>).</li></ol></li><li>Throw a <emu-val>RangeError</emu-val> exception.
+      </li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-intl-locale-constructor">
+    <h1><span class="secnum">1.2</span>The Intl.Locale Constructor<span class="utils"><span class="anchor"><a href="#sec-intl-locale-constructor">#</a></span></span></h1>
+
+    <p>
+      The Locale constructor is a standard built-in property of the Intl object. Behaviour common to all service constructor properties of the Intl object is specified in  <emu-xref href="#sec-internal-slots"></emu-xref>.
+    
+    </p>
+
+
+    <emu-clause id="sec-Intl.Locale">
+      <h1><span class="secnum">1.2.1</span>Intl.Locale(tag[, options])<span class="utils"><span class="anchor"><a href="#sec-Intl.Locale">#</a></span></span></h1>
+
+      <p>
+        When the <emu-val>Intl.Locale</emu-val> function is called with an argument <var>tag</var> and an optional argument <var>options</var>, the following steps are taken:
+      
+      </p>
+
+      <emu-alg><ol><li>If IsStructurallyValidLanguageTag(<var>tag</var>) is <emu-val>false</emu-val>, throw a <emu-val>RangeError</emu-val> exception.</li><li>Let <var>canonicalizedTag</var> be CanonicalizeLanguageTag(<var>tag</var>).</li><li>If NewTarget is <emu-val>undefined</emu-val>, let <var>newTarget</var> be the <emu-xref href="#active-function-object"><a href="https://tc39.github.io/ecma262/#active-function-object">active function object</a></emu-xref>, else let <var>newTarget</var> be NewTarget.</li><li>Let <var>locale</var> be <emu-xref aoid="OrdinaryCreateFromConstructor"><a href="https://tc39.github.io/ecma262/#sec-ordinarycreatefromconstructor">OrdinaryCreateFromConstructor</a></emu-xref>(<var>newTarget</var>, <emu-val>%LocalePrototype%</emu-val>).</li><li>Return <emu-xref aoid="InitializeLocale"><a href="#sec-InitializeLocale">InitializeLocale</a></emu-xref>(<var>locale</var>, <var>canonicalizedTag</var>, <var>options</var>).
+      </li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-intl-locale-constructor">
+    <h1><span class="secnum">1.3</span>Properties of the Intl.Locale Constructor<span class="utils"><span class="anchor"><a href="#sec-properties-of-intl-locale-constructor">#</a></span></span></h1>
+
+    <p>
+      The Intl.Locale constructor has the following properties:
+    
+    </p>
+
+    <emu-clause id="sec-Intl.Locale.prototype">
+      <h1><span class="secnum">1.3.1</span>Intl.Locale.prototype<span class="utils"><span class="anchor"><a href="#sec-Intl.Locale.prototype">#</a></span></span></h1>
+
+      <p>
+        The value of <emu-val>Intl.Locale.prototype</emu-val> is <emu-val>%LocalePrototype%</emu-val>.
+      
+      </p>
+      <p>
+        This property has the attributes { [[Writable]]: <emu-val>false</emu-val>, [[Enumerable]]: <emu-val>false</emu-val>, [[Configurable]]: <emu-val>false</emu-val> }.
+      
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale-internal-slots">
+      <h1><span class="secnum">1.3.2</span>Internal slots<span class="utils"><span class="anchor"><a href="#sec-Intl.Locale-internal-slots">#</a></span></span></h1>
+
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-intl-locale-prototype-object">
+    <h1><span class="secnum">1.4</span>Properties of the Intl.Locale Prototype Object<span class="utils"><span class="anchor"><a href="#sec-properties-of-intl-locale-prototype-object">#</a></span></span></h1>
+
+    <p>
+      The Intl.Locale prototype object is itself an Intl.Locale instance as specified in  <emu-xref href="#sec-properties-of-intl-locale-instances"><a href="#sec-properties-of-intl-locale-instances">1.5</a></emu-xref>, whose internal slots are set as if it had been constructed by the expression <emu-xref aoid="Construct"><a href="https://tc39.github.io/ecma262/#sec-construct">Construct</a></emu-xref>(<emu-val>%Locale%</emu-val>).
+    
+    </p>
+    <p>
+      In the following descriptions of functions that are properties or [[Get]] attributes of properties of <emu-val>%LocalePrototype%</emu-val>, the phrase "this ListFormat object" refers to the object that is the this  value for the invocation of the function; a <emu-val>TypeError</emu-val> exception is thrown if the this value is not an object or an object that does not have an [[initializedLocale]] internal slot with value <emu-val>true</emu-val>.
+    
+    </p>
+
+    <emu-clause id="sec-Intl.Locale.prototype.constructor">
+      <h1><span class="secnum">1.4.1</span>Intl.Locale.prototype.constructor<span class="utils"><span class="anchor"><a href="#sec-Intl.Locale.prototype.constructor">#</a></span></span></h1>
+
+      <p>
+        The initial value of <emu-val>Intl.Locale.prototype.constructor</emu-val> is <emu-val>%Locale%</emu-val>.
+      
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype-@@tostringtag">
+      <h1><span class="secnum">1.4.2</span>Intl.Locale.prototype[ @@toStringTag ]<span class="utils"><span class="anchor"><a href="#sec-Intl.Locale.prototype-@@tostringtag">#</a></span></span></h1>
+
+      <p>
+      </p>
+      <p>
+        This property has the attributes { [[Writable]]: <emu-val>false</emu-val>, [[Enumerable]]: <emu-val>false</emu-val>, [[Configurable]]: <emu-val>true</emu-val> }.
+      
+      </p>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.ListFormat.prototype.format">
+      <h1><span class="secnum">1.4.3</span>Intl.ListFormat.prototype.format ([ list ])<span class="utils"><span class="anchor"><a href="#sec-Intl.ListFormat.prototype.format">#</a></span></span></h1>
+
+      <p>
+      Intl.ListFormat.prototype.format is an accessor property whose set accessor function is <emu-val>undefined</emu-val>. Its get accessor function performs the following steps:
+      
+      </p>
+
+      <emu-alg><ol><li>Let <var>lf</var> be <emu-val>this</emu-val> value.</li><li>If <emu-xref aoid="Type"><a href="https://tc39.github.io/ecma262/#sec-ecmascript-data-types-and-values">Type</a></emu-xref>(<var>lf</var>) is not Object, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>lf</var> does not have an [[InitializedListFormat]] internal slot, throw a <emu-val>TypeError</emu-val> exception.</li><li>If <var>list</var> is not provided or is <emu-val>undefined</emu-val>, then</li><li>Return an empty String.</li><li>Let <var>x</var> be ? ToArray(<var>list</var>).</li><li>Return ? FormatList(<var>lf</var>, <var>x</var>).
+      </li></ol></emu-alg>
+    </emu-clause>
+  </emu-clause>
+
+  <emu-clause id="sec-properties-of-intl-locale-instances">
+    <h1><span class="secnum">1.5</span>Properties of Intl.Locale Instances<span class="utils"><span class="anchor"><a href="#sec-properties-of-intl-locale-instances">#</a></span></span></h1>
+
+    <p>
+      Intl.Locale instances inherit properties from <emu-val>%LocalePrototype%</emu-val>.
+    
+    </p>
+
+    <p>
+      Intl.Locale instances and other objects that have been successfully initialized as a Locale have [[initializedIntlObject]] and [[initializedLocale]] internal slots whose values are <emu-val>true</emu-val>.
+    
+    </p>
+
+    <p>
+      Objects that have been successfully initialized as a Locale object also have several internal slots that are computed by the constructor:
+    
+    </p>
+
+    <ul>
+    </ul>
+  </emu-clause>
+</emu-clause><emu-annex id="sec-copyright-and-software-license">
+      <h1><span class="secnum">A</span>Copyright &amp; Software License<span class="utils"><span class="anchor"><a href="#sec-copyright-and-software-license">#</a></span></span></h1>
+      
+      <h2>Copyright Notice</h2>
+      <p>© 2016 Mozilla, Ecma International</p>
+
+      <h2>Software License</h2>
+      <p>All Software contained in this document ("Software") is protected by copyright and is being made available under the "BSD License", included below. This Software may be subject to third party rights (rights from parties other than Ecma International), including patent rights, and no licenses under such third party rights are granted under this license even if the third party concerned is a member of Ecma International. SEE THE ECMA CODE OF CONDUCT IN PATENT MATTERS AVAILABLE AT http://www.ecma-international.org/memento/codeofconduct.htm FOR INFORMATION REGARDING THE LICENSING OF PATENT CLAIMS THAT ARE REQUIRED TO IMPLEMENT ECMA INTERNATIONAL STANDARDS.</p>
+
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</p>
+
+<ol>
+  <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+  <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+  <li>Neither the name of the authors nor Ecma International may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+</ol>
+
+<p>THIS SOFTWARE IS PROVIDED BY THE ECMA INTERNATIONAL "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ECMA INTERNATIONAL BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+
+    </emu-annex>
+</emu-import>
+</body>

@@ -1,0 +1,17 @@
+{
+  "name": "proposal-intl-locale",
+  "version": "1.0.0-pre-draft",
+  "description": "Intl.Locale API Specification [Draft]",
+  "scripts": {
+    "build": "ecmarkup spec/index.html index.html",
+    "watch": "ecmarkup --watch spec/index.html index.html"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zbraniecki/proposal-intl-locale.git"
+  },
+  "devDependencies": {
+    "ecmarkup": "latest"
+  }
+}
