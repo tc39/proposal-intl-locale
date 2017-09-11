@@ -12,6 +12,10 @@ Backpointers
 
 * https://github.com/tc39/ecma402/issues/106
 
+Spec
+
+* https://zbraniecki.github.io/proposal-intl-locale/
+
 ### Authors
 
  * Zibi Braniecki (@zbraniecki)
