@@ -124,7 +124,7 @@ contributors: Mozilla, Ecma International
         1. Let _r_ be DeconstructLanguageTag(_canonicalizedTag_).
         1. Perform ? CreateDataPropertyOrThrow(_locale_, `"locale"`, _r_.[[Locale]])
         1. If _options_ is *undefined*, then
-          1. Let _options_ be ObjectCreate(*%ObjectPrototype%*).
+          1. Let _options_ be ObjectCreate(*null*).
         1. Else
           1. Let _options_ be ? ToObject(_options_).
         1. Let _optionKeys_ be ? _options_.[[OwnPropertyKeys]]().
