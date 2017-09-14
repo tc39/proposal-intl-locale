@@ -15,6 +15,48 @@ contributors: Mozilla, Ecma International
       The Locale constructor is a standard built-in property of the Intl object. Behaviour common to all service constructor properties of the Intl object is specified in <emu-xref href="#sec-internal-slots"></emu-xref>.
     </p>
 
+    <emu-table id="table-locale-options">
+      <emu-caption>Supported options</emu-caption>
+      <table class="real-table">
+        <thead>
+          <tr>
+            <td>Option</td>
+            <td>Extension key</td>
+            <td>Internal slot</td>
+          </tr>
+        </thead>
+        <tr>
+          <td>calendar</td>
+          <td>ca</td>
+          <td>[[Calendar]]</td>
+        </tr>
+        <tr>
+          <td>collation</td>
+          <td>co</td>
+          <td>[[Collation]]</td>
+        </tr>
+        <tr>
+          <td>hourCycle</td>
+          <td>hc</td>
+          <td>[[HourCycle]]</td>
+        </tr>
+        <tr>
+          <td>caseFirst</td>
+          <td>kf</td>
+          <td>[[CaseFirst]]</td>
+        </tr>
+        <tr>
+          <td>numeric</td>
+          <td>kn</td>
+          <td>[[Numeric]]</td>
+        </tr>
+        <tr>
+          <td>numberingSystem</td>
+          <td>nu</td>
+          <td>[[NumberingSystem]]</td>
+        </tr>
+      </table>
+    </emu-table>
 
     <emu-clause id="sec-Intl.Locale">
       <h1>Intl.Locale(tag[, options])</h1>
