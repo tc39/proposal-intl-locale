@@ -281,5 +281,43 @@ contributors: Mozilla, Ecma International
         1. Return _loc_.[[NumberingSystem]].
       </emu-alg>
     </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.language">
+      <h1>get Intl.Locale.prototype.language</h1>
+      <p>`Intl.Locale.prototype.language` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) does not have an [[InitializedLocale]] internal slot, throw a *TypeError* exception.
+        1. Let _locale_ be _loc_.[[Locale]].
+        1. If _locale_ does not match the `langtag` production, return *undefined*.
+        1. Return the substring of _locale_ corresponding to the `language` production.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.script">
+      <h1>get Intl.Locale.prototype.script</h1>
+      <p>`Intl.Locale.prototype.script` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) does not have an [[InitializedLocale]] internal slot, throw a *TypeError* exception.
+        1. Let _locale_ be _loc_.[[Locale]].
+        1. If _locale_ does not match the `langtag` production, return *undefined*.
+        1. If _locale_ contains a no repetitions of the `["-" script]` sequence, return *undefined*.
+        1. Return the substring of _locale_ corresponding to the `script` production.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.region">
+      <h1>get Intl.Locale.prototype.region</h1>
+      <p>`Intl.Locale.prototype.region` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) does not have an [[InitializedLocale]] internal slot, throw a *TypeError* exception.
+        1. Let _locale_ be _loc_.[[Locale]].
+        1. If _locale_ does not match the `langtag` production, return *undefined*.
+        1. If _locale_ contains a no repetitions of the `["-" region]` sequence, return *undefined*.
+        1. Return the substring of _locale_ corresponding to the `region` production.
+      </emu-alg>
+    </emu-clause>
   </emu-clause>
 </emu-clause>
