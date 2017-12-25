@@ -1,17 +1,23 @@
 {
   "name": "proposal-intl-locale",
+  "author": "ECMA TC39",
+  "license": "SEE LICENSE IN https://tc39.github.io/ecma262/#sec-copyright-and-software-license",
+  "homepage": "https://tc39.github.io/proposal-intl-locale/",
   "version": "1.0.0-pre-draft",
   "description": "Intl.Locale API Specification [Draft]",
   "scripts": {
-    "build": "ecmarkup spec/index.html index.html",
-    "watch": "ecmarkup --watch spec/index.html index.html"
+    "build": "ecmarkup spec.html index.html",
+    "watch": "ecmarkup --watch spec.html index.html"
   },
   "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/zbraniecki/proposal-intl-locale.git"
   },
+  "dependencies": {
+    "ecmarkup": "^3.12.0"
+  },
   "devDependencies": {
-    "ecmarkup": "latest"
+    "@alrra/travis-scripts": "^3.0.0"
   }
 }
