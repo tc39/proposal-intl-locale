@@ -94,6 +94,69 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
+    <emu-clause id="sec-findextension" aoid="FindExtension">
+      <h1>FindExtension ( _extension_, _key_ )</h1>
+
+      <p>The abstract operation FindExtension is called with _extension_, which must be a Unicode locale extension sequence, and String _key_. This operation returns start and end indices for the type subtags for _key_ by performing the following steps:</p>
+
+      <emu-alg>
+        1. Assert: The number of elements in _key_ is 2.
+        1. Let _size_ be the number of elements in _extension_.
+        1. Let _searchValue_ be the concatenation of `"-"`, _key_, and `"-"`.
+        1. Let _pos_ be Call(%StringProto_indexOf%, _extension_, &laquo; _searchValue_ &raquo;).
+        1. If _pos_ ≠ -1, then
+          1. Let _start_ be _pos_ + 4.
+          1. Let _end_ be _start_.
+          1. Let _k_ be _start_.
+          1. Let _done_ be *false*.
+          1. Repeat, while _done_ is *false*
+            1. Let _e_ be Call(%StringProto_indexOf%, _extension_, &laquo; `"-"`, _k_ &raquo;).
+            1. If _e_ = -1, let _len_ be _size_ - _k_; else let _len_ be _e_ - _k_.
+            1. If _len_ = 2, then
+              1. Let _done_ be *true*.
+            1. Else if _e_ = -1, then
+              1. Let _end_ be _size_.
+              1. Let _done_ be *true*.
+            1. Else,
+              1. Let _end_ be _e_.
+              1. Let _k_ be _e_ + 1.
+          1. Return a new Record { [[Start]]: _pos_, [[End]]: _end_ }.
+        1. Let _searchValue_ be the concatenation of `"-"` and _key_.
+        1. Let _pos_ be Call(%StringProto_indexOf%, _extension_, &laquo; _searchValue_ &raquo;).
+        1. If _pos_ ≠ -1 and _pos_ + 3 = _size_, then
+          1. Return a new Record {{ [[Start]]: _pos_, [[End]]: _size_ }.
+        1. Return *undefined*.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-unicodeextensionvalue" aoid="UnicodeExtensionValue">
+      <h1>UnicodeExtensionValue ( _extension_, _key_ )</h1>
+
+      <p>The abstract operation UnicodeExtensionValue is called with _extension_, which must be a Unicode locale extension sequence, and String _key_. This operation returns the type subtags for _key_ by performing the following steps:</p>
+
+      <emu-alg>
+        1. Let _range_ be FindExtension(_extension_, _key_).
+        1. If _range_ is *undefined*, return *undefined*.
+        1. If _range_.[[Start]] + 4 &ge; _range_.[[End]], return an empty String.
+        1. Otherwise, return a String value equal to the substring of _extension_ from _range_.[[Start]] + 4 (inclusive) to _range_.[[End]] (exclusive).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-unused-extensions" aoid="UnusedExtensions">
+      <h1>UnusedExtensions ( r )</h1>
+      <emu-alg>
+        1. Let _extension_ be _r_.[[extension]].
+        1. For _key_ in %Locale%.[[RelevantExtensionKeys]],
+          1. Let _done_ be *false*.
+          1. Repeat, while _done_ is *false*,
+            1. Let _range_ be FindExtension(_extension_, _key_).
+            1. If _range_ is *undefined*, set _done_ to *true*.
+            1. Otherwise, set _extension_ to the concatenation of the substring of _extension_ from the beginning to _range_.[[Start]] with the substring of _extension_ from _range_.[[End]] to the end of the string.
+        1. If _extension_ begins with `"-u-"`, set _extension_ to the substring of _extension_ beginning from its fourth index.
+        1. Return _extension_.
+      </emu-alg>
+    </emu-clause>
+
     <emu-clause id="sec-Intl.Locale">
       <h1>Intl.Locale( tag[, options] )</h1>
 
@@ -103,7 +166,7 @@ contributors: Mozilla, Ecma International
 
       <emu-alg>
         1. If NewTarget is *undefined*, throw a *TypeError* exception.
-        1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[CaseFirst]], [[Numeric]], [[NumberingSystem]] &raquo;).
+        1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[CaseFirst]], [[Numeric]], [[NumberingSystem]], [[OtherExtensions]] &raquo;).
         1. Set _tag_ to ApplyOptionsToTag(_tag_).
         1. Let _requestedLocales_ be ? CreateArrayFromList(&laquo; _tag_ &raquo;).
         1. If _options_ is *undefined*, then
@@ -128,7 +191,7 @@ contributors: Mozilla, Ecma International
         1. If _numberingSystem_ is not *undefined*, set _numberingSystem_ to ? ToString(_numeringSystem_).
         1. Set _opt_.[[nu]] to _numeringSystem_.
         1. Let _localeData_ be %Locale%.[[LocaleData]].
-        1. Let _r_ be ResolveLocale( %Locale%.[[AvailableLocales]], _requestedLocales_, _opt_, %DateTimeFormat%.[[RelevantExtensionKeys]], _localeData_).
+        1. Let _r_ be ResolveLocale( %Locale%.[[AvailableLocales]], _requestedLocales_, _opt_, %Locale%.[[RelevantExtensionKeys]], _localeData_).
         1. Set _locale_.[[Locale]] to _r_.[[locale]].
         1. Set _locale_.[[Calendar]] to _r_.[[ca]].
         1. Set _locale_.[[Collation]] to _r_.[[co]].
@@ -136,6 +199,7 @@ contributors: Mozilla, Ecma International
         1. Set _locale_.[[CaseFirst]] to _r_.[[kf]].
         1. Set _locale_.[[Numeric]] to _r_.[[kn]].
         1. Set _locale_.[[NumberingSystem]] to _r_.[[nu]].
+        1. Set _locale_.[[OtherExtensions]] to UnusedExtensions(_r_).
         1. Set _locale_.[[InitializedLocale]] to *true*.
         1. Return _locale_.
       </emu-alg>
@@ -248,8 +312,10 @@ contributors: Mozilla, Ecma International
         1. If _value_ is not *undefined*,
           1. Let _kvp_ be a String value produced by concatenating `"-"`, _key_, `"-"`, and ! ToString(_value_).
           1. Set _unicodeExt_ to a String value produced by concatenating _unicodeExt_ and _kvp_.
-      1. If _unicodeExt_ is not empty, then:
-        1. Let _result_ be a String value produced by concatenating _locale_, `"-u"`, and _unicodeExt_.
+      1. Set _unicodeExt_ to a String value produced by concatenating _unicodeExt_ and _loc_.[[OtherExtensions]].
+      1. If _unicodeExt_ is not empty, then,
+        1. If _unicodeExt_ does not have `"-"` as its third character, let _unicodeExt_ be the concatenation of `"-u"` and _unicodeExt_.
+        1. Let _result_ be a String value produced by concatenating _locale_, and _unicodeExt_.
         1. Return _result_.
       1. Else,
         1. Return _locale_.
