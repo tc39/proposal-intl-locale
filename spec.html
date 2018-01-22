@@ -305,7 +305,7 @@ contributors: Mozilla, Ecma International
       1. If Type(_loc_) does not have an [[InitializedLocale]] internal slot, throw a *TypeError* exception.
       1. Let _locale_ be _loc_.[[Locale]].
       1. Let _unicodeExt_ be an empty String.
-      1. For each row in <emu-xref href="#table-locale-options"></emu-xref>, except the header row, do:
+      1. For each row in <emu-xref href="#table-locale-options"></emu-xref>, except the header row, in table order, do:
         1. Let _name_ be the name given in the Option column of the row.
         1. Let _slot_ be the Internal Slot column of the row.
         1. Let _value_ be _locale_.[[&lt;_slot_&gt;]].
