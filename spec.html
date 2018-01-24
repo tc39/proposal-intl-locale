@@ -124,7 +124,7 @@ contributors: Mozilla, Ecma International
         1. Let _searchValue_ be the concatenation of `"-"` and _key_.
         1. Let _pos_ be Call(%StringProto_indexOf%, _extension_, &laquo; _searchValue_ &raquo;).
         1. If _pos_ ≠ -1 and _pos_ + 3 = _size_, then
-          1. Return a new Record {{ [[Start]]: _pos_, [[End]]: _size_ }.
+          1. Return a new Record { [[Start]]: _pos_, [[End]]: _size_ }.
         1. Return *undefined*.
       </emu-alg>
     </emu-clause>
@@ -304,18 +304,18 @@ contributors: Mozilla, Ecma International
       1. Let _loc_ be the *this* value.
       1. If Type(_loc_) does not have an [[InitializedLocale]] internal slot, throw a *TypeError* exception.
       1. Let _locale_ be _loc_.[[Locale]].
-      1. Let _unicodeExt_ be an empty String.
+      1. Let _extension_ be an empty String.
       1. For each row in <emu-xref href="#table-locale-options"></emu-xref>, except the header row, in table order, do:
         1. Let _name_ be the name given in the Option column of the row.
         1. Let _slot_ be the Internal Slot column of the row.
         1. Let _value_ be _locale_.[[&lt;_slot_&gt;]].
         1. If _value_ is not *undefined*,
           1. Let _kvp_ be a String value produced by concatenating `"-"`, _key_, `"-"`, and ! ToString(_value_).
-          1. Set _unicodeExt_ to a String value produced by concatenating _unicodeExt_ and _kvp_.
-      1. Set _unicodeExt_ to a String value produced by concatenating _unicodeExt_ and _loc_.[[OtherExtensions]].
-      1. If _unicodeExt_ is not empty, then,
-        1. If _unicodeExt_ does not have `"-"` as its third character, let _unicodeExt_ be the concatenation of `"-u"` and _unicodeExt_.
-        1. Let _result_ be a String value produced by concatenating _locale_, and _unicodeExt_.
+          1. Set _extension_ to a String value produced by concatenating _extension_ and _kvp_.
+      1. Set _extension_ to a String value produced by concatenating _extension_ and _loc_.[[OtherExtensions]].
+      1. If _extension_ is not empty, then,
+        1. If _extension_ does not have `"-"` as its third character, let _extension_ be the concatenation of `"-u"` and _extension_.
+        1. Let _result_ be a String value produced by concatenating _locale_ and _extension_.
         1. Return _result_.
       1. Else,
         1. Return _locale_.
