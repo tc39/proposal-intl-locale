@@ -140,7 +140,11 @@ contributors: Mozilla, Ecma International
       <emu-alg>
         1. If NewTarget is *undefined*, throw a *TypeError* exception.
         1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[CaseFirst]], [[Numeric]], [[NumberingSystem]] &raquo;).
-        1. Let _tag_ be ? ToString(_tag_).
+        1. If Type(_tag_) is not String or Object, throw a *TypeError* exception.
+        1. If Type(_tag_) is Object and _tag_ has an [[InitializedLocale]] internal slot, then
+          1. Let _tag_ be _tag_.[[Locale]].
+        1. Else,
+          1. Let _tag_ be ? ToString(_tag_).
         1. If _options_ is *undefined*, then
           1. Let _options_ be ! ObjectCreate(*null*).
         1. Else
