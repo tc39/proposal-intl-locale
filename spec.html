@@ -139,7 +139,13 @@ contributors: Mozilla, Ecma International
 
       <emu-alg>
         1. If NewTarget is *undefined*, throw a *TypeError* exception.
-        1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[CaseFirst]], [[Numeric]], [[NumberingSystem]] &raquo;).
+        1. Let _relevantExtensionKeys_ be %Locale%.[[RelevantExtensionKeys]].
+        1. Let _internalSlotsList_ be &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[NumberingSystem]] &raquo;.
+        1. If _relevantExtensionKeys_ contains `"kf"`, then
+          1. Append [[CaseFirst]] as the last element of _internalSlotsList_.
+        1. If _relevantExtensionKeys_ contains `"kn"`, then
+          1. Append [[Numeric]] as the last element of _internalSlotsList_.
+        1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, _internalSlotsList_).
         1. If Type(_tag_) is not String or Object, throw a *TypeError* exception.
         1. If Type(_tag_) is Object and _tag_ has an [[InitializedLocale]] internal slot, then
           1. Let _tag_ be _tag_.[[Locale]].
@@ -164,13 +170,15 @@ contributors: Mozilla, Ecma International
         1. Set _opt_.[[kn]] to _kn_.
         1. Let _numberingSystem_ be ? GetOption(_options_, `"numberingSystem"`, `"string"`, *undefined*, *undefined*).
         1. Set _opt_.[[nu]] to _numeringSystem_.
-        1. Let _r_ be ! ApplyUnicodeExtensionToTag(_tag_, _opt_, %Locale%.[[RelevantExtensionKeys]]).
+        1. Let _r_ be ! ApplyUnicodeExtensionToTag(_tag_, _opt_, _relevantExtensionKeys_).
         1. Set _locale_.[[Locale]] to _r_.[[locale]].
         1. Set _locale_.[[Calendar]] to _r_.[[ca]].
         1. Set _locale_.[[Collation]] to _r_.[[co]].
         1. Set _locale_.[[HourCycle]] to _r_.[[hc]].
-        1. Set _locale_.[[CaseFirst]] to _r_.[[kf]].
-        1. Set _locale_.[[Numeric]] to _r_.[[kn]].
+        1. If _relevantExtensionKeys_ contains `"kf"`, then
+          1. Set _locale_.[[CaseFirst]] to _r_.[[kf]].
+        1. If _relevantExtensionKeys_ contains `"kn"`, then
+          1. Set _locale_.[[Numeric]] to _r_.[[kn]].
         1. Set _locale_.[[NumberingSystem]] to _r_.[[nu]].
         1. Set _locale_.[[InitializedLocale]] to *true*.
         1. Return _locale_.
@@ -200,7 +208,7 @@ contributors: Mozilla, Ecma International
       <h1>Internal slots</h1>
 
       <p>
-        The value of the [[RelevantExtensionKeys]] internal slot is &laquo; `"ca"`, `"co"`, `"hc"`, `"kf"`, `"kn"`, `"nu"` &raquo;.
+        The value of the [[RelevantExtensionKeys]] internal slot is &laquo; `"ca"`, `"co"`, `"hc"`, `"kf"`, `"kn"`, `"nu"` &raquo;. If %Collator%.[[RelevantExtensionKeys]] does not contain `"kf"`, then remove `"kf"` from %Locale%.[[RelevantExtensionKeys]]. If %Collator%.[[RelevantExtensionKeys]] does not contain `"kn"`, then remove `"kn"` from %Locale%.[[RelevantExtensionKeys]].
       </p>
     </emu-clause>
   </emu-clause>
@@ -278,7 +286,7 @@ contributors: Mozilla, Ecma International
 
     <emu-clause id="sec-Intl.Locale.prototype.caseFirst">
       <h1>get Intl.Locale.prototype.caseFirst</h1>
-      <p>This property only exists if %Collator%.[[RelevantExtensionKeys]] contains `"kf"`.</p>
+      <p>This property only exists if %Locale%.[[RelevantExtensionKeys]] contains `"kf"`.</p>
       <p>`Intl.Locale.prototype.caseFirst` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
       <emu-alg>
         1. Let _loc_ be the *this* value.
