@@ -63,35 +63,16 @@ contributors: Mozilla, Ecma International
           1. Return _result_.
         1. If _tag_ contains a substring that is a Unicode locale extension sequence, then
           1. Let _extension_ be the String value consisting of the first substring of _tag_ that is a Unicode locale extension sequence.
+          1. Let _components_ be ! UnicodeExtensionComponents(_extension_).
+          1. Let _attributes_ be _components_.[[Attributes]].
+          1. Let _keywords_ be _components_.[[Keywords]].
         1. Else,
-          1. Let _extension_ be the empty String.
-        1. Let _keywords_ be the empty List.
-        1. Let _size_ be the number of elements in _extension_.
-        1. Let _key_ be `"attributes"`.
-        1. Let _value_ be the empty String.
-        1. Let _k_ be 3.
-        1. Repeat, while _k_ &lt; _size_
-          1. Let _e_ be ! Call(%StringProto_indexOf%, _extension_, « `"-"`, _k_ »).
-          1. If _e_ = -1, let _len_ be _size_ - _k_; else let _len_ be _e_ - _k_.
-          1. Let _subtag_ the String value equal to the substring of _extension_ consisting of the code units at indices _k_ (inclusive) through _k_ + _len_ (exclusive).
-          1. If _len_ = 2, then
-            1. If _keywords_ does not contain an element whose [[Key]] is the same as _key_, then
-              1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
-            1. Let _key_ be _subtag_.
-            1. Let _value_ be the empty String.
-          1. Else,
-            1. If _value_ is not the empty String, then
-              1. Let _value_ be the string-concatenation of _value_ and `"-"`.
-            1. Let _value_ be the string-concatenation of _value_ and _subtag_.
-          1. Let _k_ be _k_ + _len_ + 1.
-        1. If _keywords_ does not contain an element whose [[Key]] is the same as _key_, then
-          1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
+          1. Let _attributes_ be the empty List.
+          1. Let _keywords_ be the empty List.
         1. Let _result_ be a new Record.
         1. Let _newExtension_ be `"-u"`.
-        1. Let _entry_ be the element of _keywords_ whose [[Key]] is the same as `"attributes"`.
-        1. If _entry_.[[Value]] is not the empty String, then
-          1. Let _newExtension_ be the string-concatenation of _newExtension_, `"-"`, and _entry_.[[Value]].
-        1. Remove _entry_ from _keywords_.
+        1. Repeat for each element _attribute_ of _attributes_ in List order,
+          1. Let _newExtension_ be the string-concatenation of _newExtension_, `"-"`, and _attribute_.
         1. Repeat for each element _key_ of _relevantExtensionKeys_ in List order,
           1. Let _value_ be *undefined*.
           1. If _keywords_ contains an element whose [[Key]] is the same as _key_, then
@@ -119,6 +100,45 @@ contributors: Mozilla, Ecma International
           1. Let _locale_ be ! InsertUnicodeExtension(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-unicode-extension-components" aoid=UnicodeExtensionComponents>
+      <h1>UnicodeExtensionComponents( _extension_ )</h1>
+      <p>
+        The UnicodeExtensionComponents abstract operation returns the attributes and keywords from _extension_, which must be a Unicode locale extension sequence. If an attribute or a keyword occurs multiple times in _extension_, only the first occurence is returned. The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _attributes_ be the empty List.
+        1. Let _keywords_ be the empty List.
+        1. Let _isKeyword_ be *false*.
+        1. Let _size_ be the number of elements in _extension_.
+        1. Let _k_ be 3.
+        1. Repeat, while _k_ &lt; _size_
+          1. Let _e_ be ! Call(%StringProto_indexOf%, _extension_, « `"-"`, _k_ »).
+          1. If _e_ = -1, let _len_ be _size_ - _k_; else let _len_ be _e_ - _k_.
+          1. Let _subtag_ the String value equal to the substring of _extension_ consisting of the code units at indices _k_ (inclusive) through _k_ + _len_ (exclusive).
+          1. If _isKeyword_ is *false*, then
+            1. If _len_ &ne; 2 and _subtag_ is not an element of _attributes_, then
+              1. Append _subtag_ to _attributes_.
+          1. Else,
+            1. If _len_ = 2, then
+              1. If _keywords_ does not contain an element whose [[Key]] is the same as _key_, then
+                1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
+            1. Else,
+              1. If _value_ is not the empty String, then
+                1. Let _value_ be the string-concatenation of _value_ and `"-"`.
+              1. Let _value_ be the string-concatenation of _value_ and _subtag_.
+          1. If _len_ = 2, then
+            1. Let _isKeyword_ be *true*.
+            1. Let _key_ be _subtag_.
+            1. Let _value_ be the empty String.
+          1. Let _k_ be _k_ + _len_ + 1.
+        1. If _isKeyword_ is *true*, then
+          1. If _keywords_ does not contain an element whose [[Key]] is the same as _key_, then
+            1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
+        1. Return the Record{[[Attributes]]: _attributes_, [[Keywords]]: _keywords_}.
       </emu-alg>
     </emu-clause>
 
