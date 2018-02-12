@@ -119,17 +119,30 @@ contributors: Mozilla, Ecma International
             1. Let _newExtension_ be the string-concatenation of _newExtension_, `"-"`, and _value_.
         1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
         1. If the number of elements in _newExtension_ is greater than 2, then
-          1. Let _privateIndex_ be ! Call(%StringProto_indexOf%, _locale_, &laquo; `"-x-"` &raquo;).
-          1. If _privateIndex_ = -1, then
-            1. Let _locale_ be the concatenation of _locale_ and _newExtension_.
-          1. Else,
-            1. Let _preExtension_ be the substring of _locale_ from position 0, inclusive, to position _privateIndex_, exclusive.
-            1. Let _postExtension_ be the substring of _locale_ from position _privateIndex_ to the end of the string.
-            1. Let _locale_ be the string-concatenation of _preExtension_, _newExtension_, and _postExtension_.
-          1. Assert: ! IsStructurallyValidLanguageTag(_locale_) is *true*.
-          1. Let _locale_ be ! CanonicalizeLanguageTag(_locale_).
+          1. Let _locale_ be ! InsertUnicodeExtension(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-insert-unicode-extension" aoid=InsertUnicodeExtension>
+      <h1>InsertUnicodeExtension( _locale_, _extension_ )</h1>
+      <p>
+        The InsertUnicodeExtension abstract operation inserts _extension_, which must be a Unicode locale extension sequence, into _locale_, which must be a String value with a structurally valid and canonicalized BCP 47 language tag. The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Assert: _locale_ does not contain a substring that is a Unicode locale extension sequence.
+        1. Assert: _extension_ is a Unicode extension sequence.
+        1. Let _privateIndex_ be ! Call(%StringProto_indexOf%, _locale_, &laquo; `"-x-"` &raquo;).
+        1. If _privateIndex_ = -1, then
+          1. Let _locale_ be the concatenation of _locale_ and _extension_.
+        1. Else,
+          1. Let _preExtension_ be the substring of _locale_ from position 0, inclusive, to position _privateIndex_, exclusive.
+          1. Let _postExtension_ be the substring of _locale_ from position _privateIndex_ to the end of the string.
+          1. Let _locale_ be the string-concatenation of _preExtension_, _extension_, and _postExtension_.
+        1. Assert: ! IsStructurallyValidLanguageTag(_locale_) is *true*.
+        1. Return ! CanonicalizeLanguageTag(_locale_).
       </emu-alg>
     </emu-clause>
 
