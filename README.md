@@ -49,7 +49,7 @@ TBD
 let loc = new Intl.Locale("pl-u-hc-h12", {
   calendar: 'gregory'
 });
-console.log(loc.locale); // "pl"
+console.log(loc.language); // "pl"
 console.log(loc.hourCycle); // "h12"
 console.log(loc.calendar); // "gregory"
 console.log(loc.toString()); // "pl-u-ca-gregory-hc-h12"
