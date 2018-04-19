@@ -14,7 +14,7 @@ Intl.Locale [is proposed](https://github.com/whatwg/html/pull/3046) to be the cl
 
 ### Status
 
-__Stage 1__
+__Stage 3__
 
 Implementation Progress
 
