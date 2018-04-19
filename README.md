@@ -26,7 +26,7 @@ Backpointers
 
 Spec
 
-* https://zbraniecki.github.io/proposal-intl-locale/
+* https://tc39.github.io/proposal-intl-locale/
 
 ### Authors
 
