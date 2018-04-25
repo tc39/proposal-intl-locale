@@ -273,8 +273,8 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. If _locale_ does not match the `langtag` production, return *undefined*.
-        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region]` subsequence of the `langtag` grammar.
+        1. If _locale_ does not match the `langtag` production, return _locale_.
+        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant)` subsequence of the `langtag` grammar.
     </emu-clause>
 
     <emu-clause id="sec-Intl.Locale.prototype.collation">
