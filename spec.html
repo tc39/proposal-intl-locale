@@ -327,6 +327,18 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
+    <emu-clause id="sec-Intl.Locale.prototype.baseName">
+      <h1>get Intl.Locale.prototype.baseName</h1>
+      <p>`Intl.Locale.prototype.baseName` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
+          1. Throw a *TypeError* exception.
+        1. Let _locale_ be _loc_.[[Locale]].
+        1. If _locale_ does not match the `langtag` production, return *undefined*.
+        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region]` subsequence of the `langtag` grammar.
+    </emu-clause>
+
     <emu-clause id="sec-Intl.Locale.prototype.collation">
       <h1>get Intl.Locale.prototype.collation</h1>
       <p>`Intl.Locale.prototype.collation` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
