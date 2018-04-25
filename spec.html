@@ -213,6 +213,10 @@ contributors: Mozilla, Ecma International
       <p>
         The value of the [[RelevantExtensionKeys]] internal slot is &laquo; `"ca"`, `"co"`, `"hc"`, `"kf"`, `"kn"`, `"nu"` &raquo;. If %Collator%.[[RelevantExtensionKeys]] does not contain `"kf"`, then remove `"kf"` from %Locale%.[[RelevantExtensionKeys]]. If %Collator%.[[RelevantExtensionKeys]] does not contain `"kn"`, then remove `"kn"` from %Locale%.[[RelevantExtensionKeys]].
       </p>
+
+      <p>
+        The value of the [[LikelySubtags]] internal slot is a List of Records, with each Record having the following two fields, each of which is a String 
+      </p>
     </emu-clause>
   </emu-clause>
 
@@ -241,6 +245,30 @@ contributors: Mozilla, Ecma International
       <p>
         This property has the attributes { [[Writable]]: *false*, [[Enumerable]]: *false*, [[Configurable]]: *true* }.
       </p>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.maximize">
+      <h1>Intl.Locale.prototype.maximize ()</h1>
+
+      <emu-alg>
+      1. Let _loc_ be the *this* value.
+      1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
+        1. Throw a *TypeError* exception.
+      1. Let _maximal_ be the result of the <a href="http://www.unicode.org/reports/tr35/#Likely_Subtags">Add Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
+      1. Return ! Construct(%Locale%, _maximal_).
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.minimize">
+      <h1>Intl.Locale.prototype.minimize ()</h1>
+
+      <emu-alg>
+      1. Let _loc_ be the *this* value.
+      1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
+        1. Throw a *TypeError* exception.
+      1. Let _minimal_ be the result of the <a href="http://www.unicode.org/reports/tr35/#Likely_Subtags">Remove Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
+      1. Return ! Construct(%Locale%, _minimal_).
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-Intl.Locale.prototype.toString">
