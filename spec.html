@@ -16,24 +16,20 @@ contributors: Mozilla, Ecma International
     </p>
 
     <emu-clause id="sec-apply-options-to-tag" aoid=ApplyOptionsToTag>
-      <h1>ApplyOptionsToTag( _tag_, _options_ )</h1>
+      <h1>ApplyOptionsToTag( _tag_, _opt_ )</h1>
       <p>
         The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>.
       </p>
 
       <emu-alg>
         1. Assert: Type(_tag_) is String.
-        1. If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.
-        1. Let _language_ be ? GetOption(_options_, `"language"`, `"string"`, *undefined*, *undefined*).
-        1. If _language_ is not *undefined*, then
-          1. If _language_ does not match the `language` production, throw a *RangeError* exception.
-          1. If _language_ matches the `grandfathered` production, throw a *RangeError* exception.
-        1. Let _script_ be ? GetOption(_options_, `"script"`, `"string"`, *undefined*, *undefined*).
-        1. If _script_ is not *undefined*, then
-          1. If _script_ does not match the `script` production, throw a *RangeError* exception.
-        1. Let _region_ be ? GetOption(_options_, `"region"`, `"string"`, *undefined*, *undefined*).
-        1. If _region_ is not *undefined*, then
-          1. If _region_ does not match the `region` production, throw a *RangeError* exception.
+        1. Assert: IsStructurallyValidLanguageTag(_tag_) is *true*.
+        1. If _opt_ has a [[Language]] field, let _language_ be _opt_.[[Language]].
+        1. Otherwise, let _language_ be *undefined*.
+        1. If _opt_ has a [[Script]] field, let _script_ be _opt_.[[Script]].
+        1. Otherwise, let _script_ be *undefined*.
+        1. If _opt_ has a [[Region]] field, let _region_ be _opt_.[[Region]].
+        1. Otherwise, let _region_ be *undefined*.
         1. If _tag_ matches neither the `privateuse` nor the `grandfathered` production, then
           1. Assert: _tag_ matches the `langtag` production.
           1. If _language_ is not *undefined*, then
@@ -188,8 +184,40 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
+    <emu-clause id="sec-create-locale" aoid="CreateLocale">
+      <h1>CreateLocale ( _tag_ [, _opt_ [, _proto_ ] ] )</h1>
+      <emu-alg>
+        1. If _opt_ is not provided, let _opt_ be a new Record.
+        1. If _proto_ is not provided, let _proto_ be *%LocalePrototype%*.
+        1. Let _relevantExtensionKeys_ be %Locale%.[[RelevantExtensionKeys]].
+        1. Let _internalSlotsList_ be &laquo; [[InitializedLocale]], [[Locale]], [[BaseName]], [[ca]], [[co]], [[hc]], [[nu]] &raquo;.
+        1. If _relevantExtensionKeys_ contains `"kf"`, then
+          1. Append [[kf]] as the last element of _internalSlotsList_.
+        1. If _relevantExtensionKeys_ contains `"kn"`, then
+          1. Append [[kn]] as the last element of _internalSlotsList_.
+        1. Let _locale_ be ! ObjectCreate(_proto_, _internalSlotsList_).
+        1. If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.
+        1. Set _tag_ to ! ApplyOptionsToTag(_tag_, _opt_).
+        1. Let _r_ be ! ApplyUnicodeExtensionToTag(_tag_, _opt_, _relevantExtensionKeys_).
+        1. Set _locale_.[[Locale]] to _r_.[[locale]].
+        1. If _r_.[[Locale]] does not match the `langtag` production,
+          1. Set _locale_.[[BaseName]] to _r_.[[locale]].
+        1. Otherwise,
+          1. Set _locale_.[[BaseName]] to the substring of _r_.[[locale]] corresponding to the `language ["-" script] ["-" region] *("-" variant) ["-" privateuse]` subsequence of the `langtag` grammar.
+        1. Set _locale_.[[ca]] to _r_.[[ca]].
+        1. Set _locale_.[[co]] to _r_.[[co]].
+        1. Set _locale_.[[hc]] to _r_.[[hc]].
+        1. If _relevantExtensionKeys_ contains `"kf"`, then
+          1. Set _locale_.[[kf]] to _r_.[[kf]].
+        1. If _relevantExtensionKeys_ contains `"kn"`, then
+          1. Set _locale_.[[kn]] to _r_.[[kn]].
+        1. Set _locale_.[[nu]] to _r_.[[nu]].
+        1. Return _locale_.
+      </emu-alg>
+    </emu-clause>
+
     <emu-clause id="sec-Intl.Locale">
-      <h1>Intl.Locale( _tag_ [, _options_] )</h1>
+      <h1>Intl.Locale ( _tag_ [ , _options_ ] )</h1>
 
       <p>
         The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>.
@@ -199,13 +227,7 @@ contributors: Mozilla, Ecma International
 
       <emu-alg>
         1. If NewTarget is *undefined*, throw a *TypeError* exception.
-        1. Let _relevantExtensionKeys_ be %Locale%.[[RelevantExtensionKeys]].
-        1. Let _internalSlotsList_ be &laquo; [[InitializedLocale]], [[Locale]], [[Calendar]], [[Collation]], [[HourCycle]], [[NumberingSystem]] &raquo;.
-        1. If _relevantExtensionKeys_ contains `"kf"`, then
-          1. Append [[CaseFirst]] as the last element of _internalSlotsList_.
-        1. If _relevantExtensionKeys_ contains `"kn"`, then
-          1. Append [[Numeric]] as the last element of _internalSlotsList_.
-        1. Let _locale_ be ? OrdinaryCreateFromConstructor(NewTarget, *%LocalePrototype%*, _internalSlotsList_).
+        1. Let _proto_ be ? GetProtypeFromConstructor(NewTarget, `"%LocalePrototype%"`).
         1. If Type(_tag_) is not String or Object, throw a *TypeError* exception.
         1. If Type(_tag_) is Object and _tag_ has an [[InitializedLocale]] internal slot, then
           1. Let _tag_ be _tag_.[[Locale]].
@@ -215,8 +237,20 @@ contributors: Mozilla, Ecma International
           1. Let _options_ be ! ObjectCreate(*null*).
         1. Else
           1. Let _options_ be ? ToObject(_options_).
-        1. Set _tag_ to ? ApplyOptionsToTag(_tag_, _options_).
         1. Let _opt_ be a new Record.
+        1. Let _language_ be ? GetOption(_options_, `"language"`, `"string"`, *undefined*, *undefined*).
+        1. If _language_ is not *undefined*, then
+          1. If _language_ does not match the `language` production, throw a *RangeError* exception.
+          1. If _language_ matches the `grandfathered` production, throw a *RangeError* exception.
+        1. Set _opt_.[[Language]] to _language_.
+        1. Let _script_ be ? GetOption(_options_, `"script"`, `"string"`, *undefined*, *undefined*).
+        1. If _script_ is not *undefined*, then
+          1. If _script_ does not match the `script` production, throw a *RangeError* exception.
+        1. Set _opt_.[[Script]] to _script.
+        1. Let _region_ be ? GetOption(_options_, `"region"`, `"string"`, *undefined*, *undefined*).
+        1. If _region_ is not *undefined*, then
+          1. If _region_ does not match the `region` production, throw a *RangeError* exception.
+        1. Set _opt_.[[Region]] to _region_.
         1. Let _calendar_ be ? GetOption(_options_, `"calendar"`, `"string"`, *undefined*, *undefined*).
         1. If _calendar_ is not *undefined*, then
           1. If _calendar_ does not match the `[(3*8alphanum) *("-" (3*8alphanum))]` sequence, throw a *RangeError* exception.
@@ -236,17 +270,7 @@ contributors: Mozilla, Ecma International
         1. If _numberingSystem_ is not *undefined*, then
           1. If _numberingSystem_ does not match the `[(3*8alphanum) *("-" (3*8alphanum))]` sequence, throw a *RangeError* exception.
         1. Set _opt_.[[nu]] to _numberingSystem_.
-        1. Let _r_ be ! ApplyUnicodeExtensionToTag(_tag_, _opt_, _relevantExtensionKeys_).
-        1. Set _locale_.[[Locale]] to _r_.[[locale]].
-        1. Set _locale_.[[Calendar]] to _r_.[[ca]].
-        1. Set _locale_.[[Collation]] to _r_.[[co]].
-        1. Set _locale_.[[HourCycle]] to _r_.[[hc]].
-        1. If _relevantExtensionKeys_ contains `"kf"`, then
-          1. Set _locale_.[[CaseFirst]] to _r_.[[kf]].
-        1. If _relevantExtensionKeys_ contains `"kn"`, then
-          1. Set _locale_.[[Numeric]] to _r_.[[kn]].
-        1. Set _locale_.[[NumberingSystem]] to _r_.[[nu]].
-        1. Return _locale_.
+        1. Return ? CreateLocale(_tag_, _opt_, _proto_).
       </emu-alg>
     </emu-clause>
   </emu-clause>
@@ -313,7 +337,7 @@ contributors: Mozilla, Ecma International
       1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
         1. Throw a *TypeError* exception.
       1. Let _maximal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Add Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
-      1. Return ! Construct(%Locale%, _maximal_).
+      1. Return ! CreateLocale(_maximal_).
       </emu-alg>
     </emu-clause>
 
@@ -325,7 +349,7 @@ contributors: Mozilla, Ecma International
       1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
         1. Throw a *TypeError* exception.
       1. Let _minimal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Remove Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
-      1. Return ! Construct(%Locale%, _minimal_).
+      1. Return ! CreateLocale(_minimal_).
       </emu-alg>
     </emu-clause>
 
@@ -340,17 +364,6 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-Intl.Locale.prototype.calendar">
-      <h1>get Intl.Locale.prototype.calendar</h1>
-      <p>`Intl.Locale.prototype.calendar` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
-      <emu-alg>
-        1. Let _loc_ be the *this* value.
-        1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
-          1. Throw a *TypeError* exception.
-        1. Return _loc_.[[Calendar]].
-      </emu-alg>
-    </emu-clause>
-
     <emu-clause id="sec-Intl.Locale.prototype.baseName">
       <h1>get Intl.Locale.prototype.baseName</h1>
       <p>`Intl.Locale.prototype.baseName` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
@@ -359,8 +372,18 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. If _locale_ does not match the `langtag` production, return _locale_.
-        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant) ["-" privateuse]` subsequence of the `langtag` grammar.
+        1. Return _locale_.[[BaseName]].
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.calendar">
+      <h1>get Intl.Locale.prototype.calendar</h1>
+      <p>`Intl.Locale.prototype.calendar` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
+          1. Throw a *TypeError* exception.
+        1. Return _loc_.[[ca]].
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-Intl.Locale.prototype.collation">
@@ -370,7 +393,7 @@ contributors: Mozilla, Ecma International
         1. Let _loc_ be the *this* value.
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
-        1. Return _loc_.[[Collation]].
+        1. Return _loc_.[[co]].
       </emu-alg>
     </emu-clause>
 
@@ -381,7 +404,7 @@ contributors: Mozilla, Ecma International
         1. Let _loc_ be the *this* value.
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
-        1. Return _loc_.[[HourCycle]].
+        1. Return _loc_.[[hc]].
       </emu-alg>
     </emu-clause>
 
@@ -393,7 +416,7 @@ contributors: Mozilla, Ecma International
         1. Let _loc_ be the *this* value.
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
-        1. Return _loc_.[[CaseFirst]].
+        1. Return _loc_.[[kf]].
       </emu-alg>
     </emu-clause>
 
@@ -405,7 +428,7 @@ contributors: Mozilla, Ecma International
         1. Let _loc_ be the *this* value.
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
-        1. Return _loc_.[[Numeric]].
+        1. Return _loc_.[[kn]].
       </emu-alg>
     </emu-clause>
 
@@ -416,7 +439,7 @@ contributors: Mozilla, Ecma International
         1. Let _loc_ be the *this* value.
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
-        1. Return _loc_.[[NumberingSystem]].
+        1. Return _loc_.[[nu]].
       </emu-alg>
     </emu-clause>
 
@@ -486,25 +509,115 @@ contributors: Mozilla, Ecma International
           1. Let _O_ be ? ToObject(_locales_).
         1. Let _len_ be ? ToLength(? Get(_O_, `"length"`)).
         1. Let _k_ be 0.
-        1. Repeat, while _k_ < _len_
+        1. Repeat, while _k_ &lt; _len_
           1. Let _Pk_ be ToString(_k_).
           1. Let _kPresent_ be ? HasProperty(_O_, _Pk_).
           1. If _kPresent_ is *true*, then
             1. Let _kValue_ be ? Get(_O_, _Pk_).
             1. If Type(_kValue_) is not String or Object, throw a *TypeError* exception.
+            1. <del>Let _tag_ be ? ToString(_kValue_).</del>
+            1. <del>If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.</del>
+            1. <del>Let _canonicalizedTag_ be CanonicalizeLanguageTag(_tag_).</del>
             1. <ins>If Type(_kValue_) is Object and _kValue_ has an [[InitializedLocale]] internal slot, then</ins>
-              1. <ins>Let _tag_ be _kValue_.[[Locale]].</ins>
+              1. <ins>Let _locale_ be _kValue_.</ins>
             1. <ins>Else,</ins>
-              1. Let _tag_ be ? ToString(_kValue_).
-            1. If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.
-            1. Let _canonicalizedTag_ be CanonicalizeLanguageTag(_tag_).
-            1. If _canonicalizedTag_ is not an element of _seen_, append _canonicalizedTag_ as the last element of _seen_.
+              1. <ins>Let _locale_ be ? CreateLocale(_kValue_).</ins>
+            1. <del>If _canonicalizedTag_ is not an element of _seen_, append _canonicalizedTag_ as the last element of _seen_.</del>
+            1. <ins>If, for each element _s_ of _seen_, ! SameValue(_s_.[[Locale]], _locale_.[[Locale]]) is *false*,</ins>
+              1. <ins>Append _locale as the last element of _seen_.</ins>
           1. Increase _k_ by 1.
         1. Return _seen_.
       </emu-alg>
+    </emu-clause>
 
-      <emu-note type=editor>
-        When integrating into the main specification, the Intl.Locale object handling in this algorithm may be refactored to turn all strings into Intl.Locale instances, moving logic from ResolveLocale. This will be an editorial cleanup.
+    <emu-clause id="sec-resolvelocale" aoid="ResolveLocale">
+      <h1>ResolveLocale ( _availableLocales_, _requestedLocales_, _options_, _relevantExtensionKeys_, _localeData_ )</h1>
+
+      <p>
+        The ResolveLocale abstract operation compares a BCP 47 language priority list _requestedLocales_ against the locales in _availableLocales_ and determines the best available language to meet the request. _availableLocales_, _requestedLocales_, and _relevantExtensionKeys_ must be provided as List values, _options_ and _localeData_ as Records.
+      </p>
+
+      <p>
+        The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _matcher_ be _options_.[[localeMatcher]].
+        1. If _matcher_ is `"lookup"`, then
+          1. Let _r_ be LookupMatcher(_availableLocales_, _requestedLocales_).
+        1. Else,
+          1. Let _r_ be BestFitMatcher(_availableLocales_, _requestedLocales_).
+        1. Let _baseName_ be _r_.[[BaseName]].
+        1. Let _locale_ be _r_.[[Locale]].
+        1. Let _result_ be a new Record.
+        1. Let _displayOpts_ be a new Record.
+        1. For each element _key_ of _relevantExtensionKeys_ in List order, do
+          1. Let _foundLocaleData_ be _localeData_.[[&lt;_base_.[[BaseName]]&gt;]].
+          1. Assert: Type(_foundLocaleData_) is Record.
+          1. Let _keyLocaleData_ be _foundLocaleData_.[[&lt;_key_&gt;]].
+          1. Assert: Type(_keyLocaleData_) is List.
+          1. Let _value_ be _keyLocaleData_[0].
+          1. Assert: Type(_value_) is either String or Null.
+          1. Let _value_ be *undefined*.
+          1. Let _displayValue_ be *undefined*.
+          1. If _keyLocaleData_ contains a field _options_.[[&lt;_key_&gt;]],
+            1. Let _value_ be _options_.[[&lt;_key_&gt;]].
+            1. If ! SameValue(_value_, _locale_.[[&lt;_key_&gt;]]) is *true*,
+              1. Let _displayValue_ be _value_.
+            1. Otherwise,
+              1. Let _displayValue_ be *undefined*.
+          1. Otherwise, if _keyLocaleData_ contains a field _locale_.[[&lt;_key_&gt;]],
+            1. Let _value_ be _locale_.[[&lt;_key_&gt;]].
+            1. Let _displayValue_ be _value_.
+          1. Otherwise, if _locale_.[[&lt;_key_&gt;]] is the empty string and _keyLocaleData_ contains `"true"`,
+            1. Let _value_ be `"true"`.
+            1. Let _displayValue_ be *undefined*.
+          1. Otherwise,
+            1. Let _value_ be _keyLocaleData_.[[0]].
+            1. Let _displayValue_ be *undefined*.
+          1. Set _result_.[[&lt;_key_&gt;]] to _value_.
+          1. Set _displayOpts_.[[&lt;_key_&gt;]] to _displayValue_.
+        1. Set _result_.[[locale]] to ! CreateLocale(_baseName_, _displayOpts_).[[Locale]].
+        1. Return _result_.
+      </emu-alg>
+
+      <emu-note>
+        Non-normative summary: Two algorithms are available to match the locales: the Lookup algorithm described in RFC 4647 section 3.4, and an implementation dependent best-fit algorithm. Independent of the locale matching algorithm, options specified through Unicode locale extension sequences are negotiated separately, taking the caller's relevant extension keys and locale data as well as client-provided options into consideration. The abstract operation returns a record with a [[locale]] field whose value is the language tag of the selected locale, and fields for each key in _relevantExtensionKeys_ providing the selected value for that key.
       </emu-note>
     </emu-clause>
+
+    <emu-clause id="sec-lookupmatcher" aoid="LookupMatcher">
+      <h1>LookupMatcher ( _availableLocales_, _requestedLocales_ )</h1>
+
+      <p>
+        The LookupMatcher abstract operation compares _requestedLocales_, which must be a List as returned by CanonicalizeLocaleList, against the locales in _availableLocales_ and determines the best available language to meet the request. The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _result_ be a new Record.
+        1. For each element _locale_ of _requestedLocales_ in List order, do
+          1. <del>Let _noExtensionsLocale_ be the String value that is _locale_ with all Unicode locale extension sequences removed.</del>
+          1. Let _availableLocale_ be BestAvailableLocale(_availableLocales_, <del>_noExtensionsLocale_</del><ins>_locale_.[[BaseName]]</ins>).
+          1. If _availableLocale_ is not *undefined*, then
+            1. <del>Set _result_.[[locale]] to _availableLocale_.</del>
+            1. <del>If _locale_ and _noExtensionsLocale_ are not the same String value, then</del>
+              1. <del>Let _extension_ be the String value consisting of the first substring of _locale_ that is a Unicode locale extension sequence.</del>
+              1. <del>Set _result_.[[extension]] to _extension_.</del>
+            1. <del>Return _result_.</del>
+            1. <ins>Return { [[Locale]]: _locale_, [[BaseName]]: _availableLocale_ }.</ins>
+        1. Let _defLocale_ be DefaultLocale().
+        1. <del>Set _result_.[[locale]] to _defLocale_.</del>
+        1. <del>Return _result_.</del>
+        1. <ins>Return { [[Locale]]: _defLocale_, [[BaseName]]: _defLocale_.[[BaseName]] }.</ins>
+      </emu-alg>
+    </emu-clause>
+
+    <emu-clause id="sec-defaultlocale" aoid="DefaultLocale">
+      <h1>DefaultLocale ()</h1>
+
+      <p>
+        The DefaultLocale abstract operation returns a <del>String value</del><ins>%Locale% instance</ins> representing the structurally valid (<emu-xref href="#sec-isstructurallyvalidlanguagetag"></emu-xref>) and  canonicalized (<emu-xref href="#sec-canonicalizelanguagetag"></emu-xref>) BCP 47 language tag for the host environment's current locale.
+      </p>
+    </emu-clause>
+
 </emu-clause>
