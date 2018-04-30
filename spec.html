@@ -360,7 +360,7 @@ contributors: Mozilla, Ecma International
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
         1. If _locale_ does not match the `langtag` production, return _locale_.
-        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant)` subsequence of the `langtag` grammar.
+        1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant) ["-" privateuse]` subsequence of the `langtag` grammar.
     </emu-clause>
 
     <emu-clause id="sec-Intl.Locale.prototype.collation">
