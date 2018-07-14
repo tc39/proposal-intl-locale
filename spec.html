@@ -286,7 +286,7 @@ contributors: Mozilla, Ecma International
       1. Let _loc_ be the *this* value.
       1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
         1. Throw a *TypeError* exception.
-      1. Let _maximal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Add Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
+      1. Let _maximal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Add Likely Subtags</a> algorithm applied to _loc_.[[Locale]]. If an error is signaled, set _maximal_ to _loc_.[[Locale]].
       1. Return ! Construct(%Locale%, _maximal_).
       </emu-alg>
     </emu-clause>
@@ -298,7 +298,7 @@ contributors: Mozilla, Ecma International
       1. Let _loc_ be the *this* value.
       1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
         1. Throw a *TypeError* exception.
-      1. Let _minimal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Remove Likely Subtags</a> algorithm applied to _loc_.[[Locale]].
+      1. Let _minimal_ be the result of the <a href="https://www.unicode.org/reports/tr35/#Likely_Subtags">Remove Likely Subtags</a> algorithm applied to _loc_.[[Locale]]. If an error is signaled, set _minimal_ to _loc_.[[Locale]].
       1. Return ! Construct(%Locale%, _minimal_).
       </emu-alg>
     </emu-clause>
