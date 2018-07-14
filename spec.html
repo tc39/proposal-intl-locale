@@ -94,7 +94,7 @@ contributors: Mozilla, Ecma International
               1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
           1. Set _result_.[[<_key_>]] to _value_.
         1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
-        1. Let _newExtension_ be ! CanonicalizeUnicodeExtension(_attributes_, _keywords_).
+        1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
         1. If _newExtension_ is not the empty String, then
           1. Let _locale_ be ! InsertUnicodeExtension(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
@@ -138,32 +138,6 @@ contributors: Mozilla, Ecma International
           1. If _keywords_ does not contain an element whose [[Key]] is the same as _key_, then
             1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
         1. Return the Record{[[Attributes]]: _attributes_, [[Keywords]]: _keywords_}.
-      </emu-alg>
-    </emu-clause>
-
-    <emu-clause id="sec-canonicalize-unicode-extension" aoid=CanonicalizeUnicodeExtension>
-      <h1>CanonicalizeUnicodeExtension( _attributes_, _keywords_ )</h1>
-      <p>
-        The CanonicalizeUnicodeExtension abstract operation creates the canonical Unicode locale extension sequence from _attributes_, which must be a List of String values, and _keywords_, which must be a List of Record values. The empty String is returned if both arguments are empty Lists. The following steps are taken:
-      </p>
-
-      <emu-alg>
-        1. If _attributes_ is empty and _keywords_ is empty, then
-          1. Return the empty String.
-        1. Let _sortedAttributes_ be a new List containing the same values as the list _attributes_ where the values are ordered as if an Array of the same values had been sorted using `Array.prototype.sort` using *undefined* as _comparefn_.
-        1. Let _fullKeywords_ be the empty List.
-        1. Repeat for each element _entry_ of _keywords_ in List order,
-          1. Let _keyword_ be _entry_.[[Key]].
-          1. If _entry_.[[Value]] is not the empty String, then
-            1. Let _keyword_ be the string-concatenation of _keyword_, `"-"`, and _entry_.[[Value]].
-          1. Append _keyword_ to _fullKeywords_.
-        1. Let _sortedKeywords_ be a new List containing the same values as the list _fullKeywords_ where the values are ordered as if an Array of the same values had been sorted using `Array.prototype.sort` using *undefined* as _comparefn_.
-        1. Let _extension_ be `"-u"`.
-        1. Repeat for each element _attribute_ of _sortedAttributes_ in List order,
-          1. Let _extension_ be the string-concatenation of _extension_, `"-"`, and _attribute_.
-        1. Repeat for each element _keyword_ of _sortedKeywords_ in List order,
-          1. Let _extension_ be the string-concatenation of _extension_, `"-"`, and _keyword_.
-        1. Return _extension_.
       </emu-alg>
     </emu-clause>
 
