@@ -34,10 +34,19 @@ contributors: Mozilla, Ecma International
         1. Let _region_ be ? GetOption(_options_, `"region"`, `"string"`, *undefined*, *undefined*).
         1. If _region_ is not *undefined*, then
           1. If _region_ does not match the `region` production, throw a *RangeError* exception.
-        1. If _tag_ matches neither the `privateuse` nor the `grandfathered` production, then
-          1. Assert: _tag_ matches the `langtag` production.
-          1. If _language_ is not *undefined*, then
+        1. If _tag_ matches the `grandfathered` production,
+          1. Set _tag_ to CanonicalizeLanguageTag(_tag_).
+        1. If _language_ is not *undefined*,
+          1. If _tag_ matches the `privateuse` or `grandfathered` production,
+            1. Set _tag_ to _language_.
+            1. If _tag_ matches the `grandfathered` production,
+              1. Set _tag_ to CanonicalizeLanguageTag(_tag_).
+          1. Else,
+            1. Assert: _tag_ matches the `langtag` production.
             1. Set _tag_ to _tag_ with the substring corresponding to the `language` production replaced by the string _language_.
+        1. If _tag_ matches the `privateuse` or `grandfathered` production,
+          1. If _script_ is not *undefined*, or if _region_ is not *undefined*, throw a *RangeError* exception.
+        1. Else,
           1. If _script_ is not *undefined*, then
             1. If _tag_ does not contain a `script` production, then
               1. Set _tag_ to the concatenation of the `language` production of _tag_, `"-"`, _script_, and the rest of _tag_.
@@ -96,7 +105,7 @@ contributors: Mozilla, Ecma International
         1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
         1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
         1. If _newExtension_ is not the empty String, then
-          1. Let _locale_ be ! InsertUnicodeExtension(_locale_, _newExtension_).
+          1. Let _locale_ be ? InsertUnicodeExtension(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
       </emu-alg>
@@ -146,10 +155,14 @@ contributors: Mozilla, Ecma International
       <p>
         The InsertUnicodeExtension abstract operation inserts _extension_, which must be a Unicode locale extension sequence, into _locale_, which must be a String value with a structurally valid and canonicalized BCP 47 language tag. The following steps are taken:
       </p>
+      <p>
+        The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>.
+      </p>
 
       <emu-alg>
         1. Assert: _locale_ does not contain a substring that is a Unicode locale extension sequence.
         1. Assert: _extension_ is a Unicode extension sequence.
+        1. If _locale_ matches the `privateuse` or the `grandfathered` production, throw a *RangeError* exception.
         1. Let _privateIndex_ be ! Call(%StringProto_indexOf%, _locale_, &laquo; `"-x-"` &raquo;).
         1. If _privateIndex_ = -1, then
           1. Let _locale_ be the concatenation of _locale_ and _extension_.
@@ -402,7 +415,7 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. If _locale_ matches the `privateuse` or the `grandfathered` production, return *undefined*.
+        1. If _locale_ matches the `privateuse` or the `grandfathered` production, return _locale_.
         1. Assert: _locale_ matches the `langtag` production.
         1. Return the substring of _locale_ corresponding to the `language` production.
       </emu-alg>
