@@ -105,7 +105,7 @@ contributors: Mozilla, Ecma International
         1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
         1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
         1. If _newExtension_ is not the empty String, then
-          1. Let _locale_ be ? InsertUnicodeExtension(_locale_, _newExtension_).
+          1. Let _locale_ be InsertUnicodeExtension(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
       </emu-alg>
@@ -162,7 +162,7 @@ contributors: Mozilla, Ecma International
       <emu-alg>
         1. Assert: _locale_ does not contain a substring that is a Unicode locale extension sequence.
         1. Assert: _extension_ is a Unicode extension sequence.
-        1. If _locale_ matches the `privateuse` or the `grandfathered` production, throw a *RangeError* exception.
+        1. Assert: _locale_ matches the `langtag` production.
         1. Let _privateIndex_ be ! Call(%StringProto_indexOf%, _locale_, &laquo; `"-x-"` &raquo;).
         1. If _privateIndex_ = -1, then
           1. Let _locale_ be the concatenation of _locale_ and _extension_.
