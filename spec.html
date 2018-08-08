@@ -231,7 +231,7 @@ contributors: Mozilla, Ecma International
         1. If _relevantExtensionKeys_ contains `"kf"`, then
           1. Set _locale_.[[CaseFirst]] to _r_.[[kf]].
         1. If _relevantExtensionKeys_ contains `"kn"`, then
-          1. Set _locale_.[[Numeric]] to _r_.[[kn]].
+          1. Set _locale_.[[Numeric]] to ! SameValue(_r_.[[kn]], `"true"`).
         1. Set _locale_.[[NumberingSystem]] to _r_.[[nu]].
         1. Return _locale_.
       </emu-alg>
