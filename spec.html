@@ -27,7 +27,6 @@ contributors: Mozilla, Ecma International
         1. Let _language_ be ? GetOption(_options_, `"language"`, `"string"`, *undefined*, *undefined*).
         1. If _language_ is not *undefined*, then
           1. If _language_ does not match the `language` production, throw a *RangeError* exception.
-          1. If _language_ matches the `grandfathered` production, throw a *RangeError* exception.
         1. Let _script_ be ? GetOption(_options_, `"script"`, `"string"`, *undefined*, *undefined*).
         1. If _script_ is not *undefined*, then
           1. If _script_ does not match the `script` production, throw a *RangeError* exception.
