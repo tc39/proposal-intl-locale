@@ -126,7 +126,7 @@ contributors: Mozilla, Ecma International
         1. Repeat, while _k_ &lt; _size_
           1. Let _e_ be ! Call(%StringProto_indexOf%, _extension_, « `"-"`, _k_ »).
           1. If _e_ = -1, let _len_ be _size_ - _k_; else let _len_ be _e_ - _k_.
-          1. Let _subtag_ the String value equal to the substring of _extension_ consisting of the code units at indices _k_ (inclusive) through _k_ + _len_ (exclusive).
+          1. Let _subtag_ be the String value equal to the substring of _extension_ consisting of the code units at indices _k_ (inclusive) through _k_ + _len_ (exclusive).
           1. If _isKeyword_ is *false*, then
             1. If _len_ &ne; 2 and _subtag_ is not an element of _attributes_, then
               1. Append _subtag_ to _attributes_.
@@ -327,17 +327,6 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-Intl.Locale.prototype.calendar">
-      <h1>get Intl.Locale.prototype.calendar</h1>
-      <p>`Intl.Locale.prototype.calendar` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
-      <emu-alg>
-        1. Let _loc_ be the *this* value.
-        1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
-          1. Throw a *TypeError* exception.
-        1. Return _loc_.[[Calendar]].
-      </emu-alg>
-    </emu-clause>
-
     <emu-clause id="sec-Intl.Locale.prototype.baseName">
       <h1>get Intl.Locale.prototype.baseName</h1>
       <p>`Intl.Locale.prototype.baseName` is an accessor property whose set accessor function is *undefined*. The following algorithm refers to <a href="https://tools.ietf.org/html/rfc5646#section-2.1">RFC 5646's Language-Tag grammar</a>. Its get accessor function performs the following steps:</p>
@@ -348,6 +337,17 @@ contributors: Mozilla, Ecma International
         1. Let _locale_ be _loc_.[[Locale]].
         1. If _locale_ does not match the `langtag` production, return _locale_.
         1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant)` subsequence of the `langtag` grammar.
+    </emu-clause>
+
+    <emu-clause id="sec-Intl.Locale.prototype.calendar">
+      <h1>get Intl.Locale.prototype.calendar</h1>
+      <p>`Intl.Locale.prototype.calendar` is an accessor property whose set accessor function is *undefined*. Its get accessor function performs the following steps:</p>
+      <emu-alg>
+        1. Let _loc_ be the *this* value.
+        1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
+          1. Throw a *TypeError* exception.
+        1. Return _loc_.[[Calendar]].
+      </emu-alg>
     </emu-clause>
 
     <emu-clause id="sec-Intl.Locale.prototype.collation">
