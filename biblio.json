@@ -1,0 +1,29 @@
+{
+  "https://tc39.github.io/ecma402/": [
+    {
+      "type": "op",
+      "aoid": "CanonicalizeLanguageTag",
+      "id": "sec-canonicalizelanguagetag"
+    },
+    {
+      "type": "op",
+      "aoid": "GetOption",
+      "id": "sec-getoption"
+    },
+    {
+      "type": "op",
+      "aoid": "IsStructurallyValidLanguageTag",
+      "id": "sec-isstructurallyvalidlanguagetag"
+    },
+    {
+      "type": "op",
+      "aoid": "ResolveLocale",
+      "id": "sec-resolvelocale"
+    },
+    {
+      "type": "term",
+      "term": "%StringProto_indexOf%",
+      "id": "sec-402-well-known-intrinsic-objects"
+    }
+  ]
+}
