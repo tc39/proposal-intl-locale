@@ -103,10 +103,12 @@ contributors: Mozilla, Ecma International
             1. Else,
               1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
           1. Set _result_.[[<_key_>]] to _value_.
-        1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
-        1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
-        1. If _newExtension_ is not the empty String, then
+        1. If _attributes_ is not empty or _keywords_ is not empty, then
+          1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
+          1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
           1. Let _locale_ be InsertUnicodeExtension(_locale_, _newExtension_).
+        1. Else,
+          1. Let _locale_ be _tag_.
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
       </emu-alg>
