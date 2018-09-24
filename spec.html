@@ -173,8 +173,7 @@ contributors: Mozilla, Ecma International
           1. Let _preExtension_ be the substring of _locale_ from position 0, inclusive, to position _privateIndex_, exclusive.
           1. Let _postExtension_ be the substring of _locale_ from position _privateIndex_ to the end of the string.
           1. Let _locale_ be the string-concatenation of _preExtension_, _extension_, and _postExtension_.
-        1. Assert: IsStructurallyValidLanguageTag(_locale_) is *true*.
-        1. Return ! CanonicalizeLanguageTag(_locale_).
+        1. Return _locale_.
       </emu-alg>
     </emu-clause>
 
