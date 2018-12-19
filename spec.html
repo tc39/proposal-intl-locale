@@ -36,7 +36,7 @@ contributors: Mozilla, Ecma International
           1. If _region_ does not match the `unicode_region_subtag` production, throw a *RangeError* exception.
         1. Set _tag_ to CanonicalizeLanguageTag(_tag_).
         1. If _language_ is not *undefined*,
-          1. Assert: _tag_ matches the `unicode_language_id` production.
+          1. Assert: _tag_ matches the `unicode_locale_id` production.
           1. Set _tag_ to _tag_ with the substring corresponding to the `unicode_language_subtag` production replaced by the string _language_.
         1. If _script_ is not *undefined*, then
           1. If _tag_ does not contain a `unicode_script_subtag` production, then
@@ -60,7 +60,7 @@ contributors: Mozilla, Ecma International
 
       <emu-alg>
         1. Assert: Type(_tag_) is String.
-        1. Assert: _tag_ matches the `unicode_language_id` production.
+        1. Assert: _tag_ matches the `unicode_locale_id` production.
         1. If _tag_ contains a substring that is a Unicode locale extension sequence, then
           1. Let _extension_ be the String value consisting of the first substring of _tag_ that is a Unicode locale extension sequence.
           1. Let _components_ be ! UnicodeExtensionComponents(_extension_).
@@ -147,7 +147,7 @@ contributors: Mozilla, Ecma International
       <emu-alg>
         1. Assert: _locale_ does not contain a substring that is a Unicode locale extension sequence.
         1. Assert: _extension_ is a Unicode extension sequence.
-        1. Assert: _tag_ matches the `unicode_language_id` production.
+        1. Assert: _tag_ matches the `unicode_locale_id` production.
         1. Let _privateIndex_ be ! Call(%StringProto_indexOf%, _locale_, &laquo; `"-x-"` &raquo;).
         1. If _privateIndex_ = -1, then
           1. Let _locale_ be the concatenation of _locale_ and _extension_.
@@ -320,7 +320,7 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. If _locale_ does not match the `unicode_language_id` production, return _locale_.
+        1. If _locale_ does not match the `unicode_locale_id` production, return _locale_.
         1. Return the substring of _locale_ corresponding to the `language ["-" script] ["-" region] *("-" variant)` subsequence of the `unicode_language_id` grammar.
     </emu-clause>
 
@@ -400,7 +400,7 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. Assert: _locale_ matches the `unicode_language_id` production.
+        1. Assert: _locale_ matches the `unicode_locale_id` production.
         1. Return the substring of _locale_ corresponding to the `unicode_language_subtag` production.
       </emu-alg>
     </emu-clause>
@@ -413,7 +413,7 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. Assert: _locale_ matches the `unicode_language_id` production.
+        1. Assert: _locale_ matches the `unicode_locale_id` production.
         1. If _locale_ does not contain the `["-" script]` sequence, return *undefined*.
         1. Return the substring of _locale_ corresponding to the `unicode_script_subtag` production.
       </emu-alg>
@@ -427,7 +427,7 @@ contributors: Mozilla, Ecma International
         1. If Type(_loc_) is not Object or _loc_ does not have an [[InitializedLocale]] internal slot, then
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
-        1. Assert: _locale_ matches the `unicode_language_id` production.
+        1. Assert: _locale_ matches the `unicode_locale_id` production.
         1. If _locale_ does not contain the `["-" region]` sequence, return *undefined*.
         1. Return the substring of _locale_ corresponding to the `unicode_region_subtag` production.
       </emu-alg>
