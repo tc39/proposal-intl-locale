@@ -1,4 +1,6 @@
-## Intl.Locale API Specification [draft]
+# `Intl.Locale` API Specification [draft]
+
+## Overview
 
 ### Motivation
 
@@ -12,7 +14,21 @@ Intl.Locale has a toString method which represents the complete contents of the 
 
 Intl.Locale [is proposed](https://github.com/whatwg/html/pull/3046) to be the class that HTML uses to expose the current locale to the Web. Currently, HTML supports only `navigator.languages`, but with `navigator.locales`, an Array of Intl.Locale instances, browsers may expose user preferences for calendar, numbering system, and more to Progressive Web applications.
 
-### Status
+### Usage examples
+
+The following example shows how to use `Intl.Locale`
+
+```javascript
+let loc = new Intl.Locale("pl-u-hc-h12", {
+  calendar: 'gregory'
+});
+console.log(loc.language); // "pl"
+console.log(loc.hourCycle); // "h12"
+console.log(loc.calendar); // "gregory"
+console.log(loc.toString()); // "pl-u-ca-gregory-hc-h12"
+```
+
+### Implementation Status
 
 __Stage 3__
 
@@ -24,36 +40,31 @@ Backpointers
 
 * https://github.com/tc39/ecma402/issues/106
 
-Spec
-
-* https://tc39.github.io/proposal-intl-locale/
 
 ### Authors
 
- * Zibi Braniecki (@zbraniecki)
- * Daniel Ehrenberg (@littledan)
+ - Zibi Braniecki (@zbraniecki)
+ - Daniel Ehrenberg (@littledan)
 
 ### Reviewers
 
 TBD
 
-### Prior Art
+## Proposal
+
+### Spec
+
+You can view the [spec text](spec.html) or rendered as [HTML](https://tc39.github.io/proposal-intl-locale/).
+
+#### Prior Art
 
 * [Java Locale class](https://docs.oracle.com/javase/7/docs/api/java/util/Locale.html)
 * [ICU4J Locale class](http://icu-project.org/apiref/icu4j/com/ibm/icu/util/ULocale.html)
 * [ICU4C Locale class](http://icu-project.org/apiref/icu4c/classicu_1_1Locale.html)
 
-### Usage
 
-```javascript
-let loc = new Intl.Locale("pl-u-hc-h12", {
-  calendar: 'gregory'
-});
-console.log(loc.language); // "pl"
-console.log(loc.hourCycle); // "h12"
-console.log(loc.calendar); // "gregory"
-console.log(loc.toString()); // "pl-u-ca-gregory-hc-h12"
-```
+
+## Development
 
 ### Render Spec
 
