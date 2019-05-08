@@ -10,7 +10,7 @@ The JavaScript Intl library (ECMA 402) has used strings to identify locales sinc
 - A serializable, standard format to store user locale preferences for use in Intl APIs rather than a combination of language and options bag.
 - In follow-on proposals, a Locale class can be used for an interface to get at various kinds of locale data, including likely subtags, first day of the week, various display names, etc.
 
-Intl.Locale has a toString method which represents the complete contents of the locale. This method allows Locale instances to be provided as an argument to existing Intl constructors, serialized iN JSON, or any other context where an exact string representation is useful.
+Intl.Locale has a toString method which represents the complete contents of the locale. This method allows Locale instances to be provided as an argument to existing Intl constructors, serialized in JSON, or any other context where an exact string representation is useful.
 
 Intl.Locale [is proposed](https://github.com/whatwg/html/pull/3046) to be the class that HTML uses to expose the current locale to the Web. Currently, HTML supports only `navigator.languages`, but with `navigator.locales`, an Array of Intl.Locale instances, browsers may expose user preferences for calendar, numbering system, and more to Progressive Web applications.
 
