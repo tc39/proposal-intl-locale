@@ -35,6 +35,7 @@ __Stage 3__
 Implementation Progress
 
  * [Shipping in Chrome 74 / V8 v7.4](https://v8.dev/blog/v8-release-74#intl.locale)
+ * [Shipping behind the flag in Firefox 70](https://bugzilla.mozilla.org/show_bug.cgi?id=1433303)
  * Polyfill: https://github.com/zbraniecki/Intl.js/tree/intllocale
 
 Backpointers
