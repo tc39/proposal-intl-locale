@@ -438,6 +438,48 @@ contributors: Mozilla, Ecma International
 <emu-clause id="sec-locale-modified-algorithms">
   <h1>Modified algorithms</h1>
 
+    <emu-clause id="sec-canonicalizelanguagetag" aoid="CanonicalizeLanguageTag">
+      <h1>CanonicalizeLanguageTag ( _locale_ )</h1>
+
+      <p>
+        The CanonicalizeLanguageTag abstract operation returns the canonical and case-regularized form of the _locale_ argument (which must be a String value that is a structurally valid Unicode BCP 47 Locale Identifier as verified by the IsStructurallyValidLanguageTag abstract operation).
+        <del>A conforming implementation shall take the steps specified in the &ldquo;BCP 47 Language Tag to Unicode BCP 47 Locale Identifier&rdquo; algorithm, from <a href="https://unicode.org/reports/tr35/#BCP_47_Language_Tag_Conversion">Unicode Technical Standard #35 LDML § 3.3.1 BCP 47 Language Tag Conversion</a>.</del>
+        <ins>The following steps are taken:</ins>
+      </p>
+
+      <emu-alg>
+        1. <ins>Let _localeId_ be the string _locale_ after performing the steps specified in the &ldquo;<a href="https://www.unicode.org/reports/tr35/tr35.html#Language_Tag_to_Locale_Identifier">BCP 47 Language Tag to Unicode BCP 47 Locale Identifier</a>&rdquo; algorithm, from <a href="https://unicode.org/reports/tr35/#BCP_47_Language_Tag_Conversion">Unicode Technical Standard #35 LDML § 3.3.1 BCP 47 Language Tag Conversion</a>, on it.
+        1. <ins>If _localeId_ contains a substring _extension_ that is a Unicode locale extension sequence, then
+          1. <ins>Let _components_ be ! UnicodeExtensionComponents(_extension_).
+          1. <ins>Let _attributes_ be _components_.[[Attributes]].
+          1. <ins>Let _keywords_ be _components_.[[Keywords]].
+          1. <ins>Let _newExtension_ be `"u"`.
+          1. <ins>For each element _attr_ of _attributes_ in List order, do
+            1. <ins>Append `"-"` to _newExtension_.
+            1. <ins>Append _attr_ to _newExtension_.
+          1. <ins>For each element _keyword_ of _keywords_ in List order, do
+            1. <ins>Append `"-"` to _newExtension_.
+            1. <ins>Append _keyword_.[[Key]] to _newExtension_.
+            1. <ins>If _keyword_.[[Value]] is not the empty String, then
+              1. <ins>Append `"-"` to _newExtension_.
+              1. <ins>Append _keyword_.[[Value]] to _newExtension_.
+          1. <ins>Assert: _newExtension_ is not equal to `"u"`.
+          1. <ins>Let _localeId_ be _localeId_ with the substring corresponding to _extension_ replaced by the string _newExtension_.
+        1. <ins>Return _localeId_.
+      </emu-alg>
+
+      <emu-note>
+        <ins>This algorithm's second step ensures that a Unicode locale extension sequence in the returned language tag contains:</ins>
+
+        <ul>
+          <li><ins>only the first instance of any attribute duplicated in the input, and</ins></li>
+          <li><ins>only the first keyword for a given key in the input,</ins></li>
+        </ul>
+
+        <ins>so that this function and <a href="#sec-Intl.Locale">`Intl.Locale`</a> will canonicalize inputs identically.</ins>
+      </emu-note>
+    </emu-clause>
+
     <emu-clause id="sec-canonicalizelocalelist" aoid="CanonicalizeLocaleList">
       <h1>CanonicalizeLocaleList ( _locales_ )</h1>
 
