@@ -88,9 +88,9 @@ contributors: Mozilla, Ecma International
               1. Append the Record{[[Key]]: _key_, [[Value]]: _value_} to _keywords_.
           1. Set _result_.[[<_key_>]] to _value_.
         1. Let _locale_ be the String value that is _tag_ with all Unicode locale extension sequences removed.
-        1. Let _newExtension_ be the canonicalized Unicode BCP 47 U Extension based on _attributes_ and _keywords_ as defined in <a href="https://www.unicode.org/reports/tr35/#u_Extension">UTS #35 section 3.6</a>.
+        1. Let _newExtension_ be a Unicode BCP 47 U Extension based on _attributes_ and _keywords_.
         1. If _newExtension_ is not the empty String, then
-          1. Let _locale_ be ? InsertUnicodeExtension(_locale_, _newExtension_).
+          1. Let _locale_ be ! InsertUnicodeExtensionAndCanonicalize(_locale_, _newExtension_).
         1. Set _result_.[[locale]] to _locale_.
         1. Return _result_.
       </emu-alg>
@@ -135,10 +135,10 @@ contributors: Mozilla, Ecma International
       </emu-alg>
     </emu-clause>
 
-    <emu-clause id="sec-insert-unicode-extension" aoid=InsertUnicodeExtension>
-      <h1>InsertUnicodeExtension( _locale_, _extension_ )</h1>
+    <emu-clause id="sec-insert-unicode-extension-and-canonicalize" aoid=InsertUnicodeExtensionAndCanonicalize>
+      <h1>InsertUnicodeExtensionAndCanonicalize( _locale_, _extension_ )</h1>
       <p>
-        The InsertUnicodeExtension abstract operation inserts _extension_, which must be a Unicode locale extension sequence, into _locale_, which must be a String value with a structurally valid and canonicalized BCP 47 language tag. The following steps are taken:
+        The InsertUnicodeExtensionAndCanonicalize abstract operation inserts _extension_, which must be a Unicode locale extension sequence, into _locale_, which must be a String value with a structurally valid and canonicalized BCP 47 language tag. The following steps are taken:
       </p>
       <p>
         The following algorithm refers to <a href="https://www.unicode.org/reports/tr35/#Identifiers">UTS 35's Unicode Language and Locale Identifiers grammar</a>.
@@ -470,18 +470,12 @@ contributors: Mozilla, Ecma International
       </emu-alg>
 
       <emu-note>
-        <ins>The second step of this algorithm ensures that this algorithm and <a href="#sec-Intl.Locale">`Intl.Locale`</a> identically replace aliased subtags in any Unicode locale extension sequence with their preferred forms.</ins>
-      </emu-note>
-
-      <emu-note>
         <ins>The third step of this algorithm ensures that a Unicode locale extension sequence in the returned language tag contains:</ins>
 
         <ul>
           <li><ins>only the first instance of any attribute duplicated in the input, and</ins></li>
-          <li><ins>only the first keyword for a given key in the input,</ins></li>
+          <li><ins>only the first keyword for a given key in the input.</ins></li>
         </ul>
-
-        <ins>consistent with <a href="#sec-Intl.Locale">`Intl.Locale`</a>.</ins>
       </emu-note>
     </emu-clause>
 
