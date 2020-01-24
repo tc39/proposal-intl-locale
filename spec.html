@@ -34,7 +34,7 @@ contributors: Mozilla, Ecma International
         1. Let _region_ be ? GetOption(_options_, `"region"`, `"string"`, *undefined*, *undefined*).
         1. If _region_ is not *undefined*, then
           1. If _region_ does not match the `unicode_region_subtag` production, throw a *RangeError* exception.
-        1. Set _tag_ to CanonicalizeLanguageTag(_tag_).
+        1. Set _tag_ to CanonicalizeUnicodeLocaleId(_tag_).
         1. If _language_ is not *undefined*,
           1. Assert: _tag_ matches the `unicode_locale_id` production.
           1. Set _tag_ to _tag_ with the substring corresponding to the `unicode_language_subtag` production replaced by the string _language_.
@@ -48,7 +48,7 @@ contributors: Mozilla, Ecma International
             1. Set _tag_ to the concatenation of the `unicode_language_subtag` production of _tag_, the substring corresponding to the `"-" unicode_script_subtag` production if present, `"-"`, _region_, and the rest of _tag_.
           1. Else,
             1. Set _tag_ to _tag_ with the substring corresponding to the `unicode_region_subtag` production replaced by the string _region_.
-        1. Return CanonicalizeLanguageTag(_tag_).
+        1. Return CanonicalizeUnicodeLocaleId(_tag_).
       </emu-alg>
     </emu-clause>
 
@@ -156,7 +156,7 @@ contributors: Mozilla, Ecma International
           1. Let _postExtension_ be the substring of _locale_ from position _privateIndex_ to the end of the string.
           1. Let _locale_ be the string-concatenation of _preExtension_, _extension_, and _postExtension_.
         1. Assert: IsStructurallyValidLanguageTag(_locale_) is *true*.
-        1. Return ! CanonicalizeLanguageTag(_locale_).
+        1. Return ! CanonicalizeUnicodeLocaleId(_locale_).
       </emu-alg>
     </emu-clause>
 
@@ -439,10 +439,10 @@ contributors: Mozilla, Ecma International
   <h1>Modified algorithms</h1>
 
     <emu-clause id="sec-canonicalizelanguagetag" aoid="CanonicalizeLanguageTag">
-      <h1>CanonicalizeLanguageTag ( _locale_ )</h1>
+      <h1><del>CanonicalizeLanguageTag</del><ins>CanonicalizeUnicodeLocaleId</ins> ( _locale_ )</h1>
 
       <p>
-        The CanonicalizeLanguageTag abstract operation returns the canonical and case-regularized form of the _locale_ argument (which must be a String value that is a structurally valid Unicode BCP 47 Locale Identifier as verified by the IsStructurallyValidLanguageTag abstract operation).
+        The <del>CanonicalizeLanguageTag</del><ins>CanonicalizeUnicodeLocaleId</ins> abstract operation returns the canonical and case-regularized form of the _locale_ argument (which must be a String value that is a structurally valid Unicode BCP 47 Locale Identifier as verified by the IsStructurallyValidLanguageTag abstract operation).
         <del>A conforming implementation shall take the steps specified in the &ldquo;BCP 47 Language Tag to Unicode BCP 47 Locale Identifier&rdquo; algorithm, from <a href="https://unicode.org/reports/tr35/#BCP_47_Language_Tag_Conversion">Unicode Technical Standard #35 LDML § 3.3.1 BCP 47 Language Tag Conversion</a>.</del>
         <ins>The following steps are taken:</ins>
       </p>
@@ -507,7 +507,7 @@ contributors: Mozilla, Ecma International
             1. <ins>Else,</ins>
               1. Let _tag_ be ? ToString(_kValue_).
             1. If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.
-            1. Let _canonicalizedTag_ be CanonicalizeLanguageTag(_tag_).
+            1. Let _canonicalizedTag_ be <del>CanonicalizeLanguageTag</del><ins>CanonicalizeUnicodeLocaleId</ins>(_tag_).
             1. If _canonicalizedTag_ is not an element of _seen_, append _canonicalizedTag_ as the last element of _seen_.
           1. Increase _k_ by 1.
         1. Return _seen_.
@@ -515,6 +515,73 @@ contributors: Mozilla, Ecma International
 
       <emu-note type=editor>
         When integrating into the main specification, the Intl.Locale object handling in this algorithm may be refactored to turn all strings into Intl.Locale instances, moving logic from ResolveLocale. This will be an editorial cleanup.
+      </emu-note>
+    </emu-clause>
+
+    <emu-clause id="sec-resolvelocale" aoid="ResolveLocale">
+      <h1>ResolveLocale ( _availableLocales_, _requestedLocales_, _options_, _relevantExtensionKeys_, _localeData_ )</h1>
+
+      <p>
+        The ResolveLocale abstract operation compares a BCP 47 language priority list _requestedLocales_ against the locales in _availableLocales_ and determines the best available language to meet the request. _availableLocales_, _requestedLocales_, and _relevantExtensionKeys_ must be provided as List values, _options_ and _localeData_ as Records.
+      </p>
+
+      <p>
+        The following steps are taken:
+      </p>
+
+      <emu-alg>
+        1. Let _matcher_ be _options_.[[localeMatcher]].
+        1. If _matcher_ is *"lookup"*, then
+          1. Let _r_ be LookupMatcher(_availableLocales_, _requestedLocales_).
+        1. Else,
+          1. Let _r_ be BestFitMatcher(_availableLocales_, _requestedLocales_).
+        1. Let _foundLocale_ be _r_.[[locale]].
+        1. Let _result_ be a new Record.
+        1. Set _result_.[[dataLocale]] to _foundLocale_.
+        1. Let _supportedExtension_ be *"-u"*.
+        1. For each element _key_ of _relevantExtensionKeys_ in List order, do
+          1. Let _foundLocaleData_ be _localeData_.[[&lt;_foundLocale_&gt;]].
+          1. Assert: Type(_foundLocaleData_) is Record.
+          1. Let _keyLocaleData_ be _foundLocaleData_.[[&lt;_key_&gt;]].
+          1. Assert: Type(_keyLocaleData_) is List.
+          1. Let _value_ be _keyLocaleData_[0].
+          1. Assert: Type(_value_) is either String or Null.
+          1. Let _supportedExtensionAddition_ be *""*.
+          1. If _r_ has an [[extension]] field, then
+            1. Let _requestedValue_ be UnicodeExtensionValue(_r_.[[extension]], _key_).
+            1. If _requestedValue_ is not *undefined*, then
+              1. If _requestedValue_ is not the empty String, then
+                1. If _keyLocaleData_ contains _requestedValue_, then
+                  1. Let _value_ be _requestedValue_.
+                  1. Let _supportedExtensionAddition_ be the string-concatenation of *"-"*, _key_, *"-"*, and _value_.
+              1. Else if _keyLocaleData_ contains *"true"*, then
+                1. Let _value_ be *"true"*.
+                1. Let _supportedExtensionAddition_ be the string-concatenation of *"-"* and _key_.
+          1. If _options_ has a field [[&lt;_key_&gt;]], then
+            1. Let _optionsValue_ be _options_.[[&lt;_key_&gt;]].
+            1. Assert: Type(_optionsValue_) is either String, Undefined, or Null.
+            1. If _keyLocaleData_ contains _optionsValue_, then
+              1. If SameValue(_optionsValue_, _value_) is *false*, then
+                1. Let _value_ be _optionsValue_.
+                1. Let _supportedExtensionAddition_ be *""*.
+          1. Set _result_.[[&lt;_key_&gt;]] to _value_.
+          1. Append _supportedExtensionAddition_ to _supportedExtension_.
+        1. If the number of elements in _supportedExtension_ is greater than 2, then
+          1. Let _privateIndex_ be Call(%StringProto_indexOf%, _foundLocale_, &laquo; *"-x-"* &raquo;).
+          1. If _privateIndex_ = -1, then
+            1. Let _foundLocale_ be the string-concatenation of _foundLocale_ and _supportedExtension_.
+          1. Else,
+            1. Let _preExtension_ be the substring of _foundLocale_ from position 0, inclusive, to position _privateIndex_, exclusive.
+            1. Let _postExtension_ be the substring of _foundLocale_ from position _privateIndex_ to the end of the string.
+            1. Let _foundLocale_ be the string-concatenation of _preExtension_, _supportedExtension_, and _postExtension_.
+          1. Assert: IsStructurallyValidLanguageTag(_foundLocale_) is *true*.
+          1. Let _foundLocale_ be <del>CanonicalizeLanguageTag</del><ins>CanonicalizeUnicodeLocaleId</ins>(_foundLocale_).
+        1. Set _result_.[[locale]] to _foundLocale_.
+        1. Return _result_.
+      </emu-alg>
+
+      <emu-note>
+        Non-normative summary: Two algorithms are available to match the locales: the Lookup algorithm described in RFC 4647 section 3.4, and an implementation dependent best-fit algorithm. Independent of the locale matching algorithm, options specified through Unicode locale extension sequences are negotiated separately, taking the caller's relevant extension keys and locale data as well as client-provided options into consideration. The abstract operation returns a record with a [[locale]] field whose value is the language tag of the selected locale, and fields for each key in _relevantExtensionKeys_ providing the selected value for that key.
       </emu-note>
     </emu-clause>
 </emu-clause>
