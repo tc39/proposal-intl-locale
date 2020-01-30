@@ -417,7 +417,7 @@ contributors: Mozilla, Ecma International
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
         1. Assert: _locale_ matches the `unicode_locale_id` production.
-        1. If _locale_ does not contain the `["-" script]` sequence, return *undefined*.
+        1. If _locale_ does not contain the `["-" unicode_script_subtag]` sequence, return *undefined*.
         1. Return the substring of _locale_ corresponding to the `unicode_script_subtag` production.
       </emu-alg>
     </emu-clause>
@@ -431,7 +431,7 @@ contributors: Mozilla, Ecma International
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
         1. Assert: _locale_ matches the `unicode_locale_id` production.
-        1. If _locale_ does not contain the `["-" region]` sequence, return *undefined*.
+        1. If _locale_ does not contain the `["-" unicode_region_subtag]` sequence, return *undefined*.
         1. Return the substring of _locale_ corresponding to the `unicode_region_subtag` production.
       </emu-alg>
     </emu-clause>
