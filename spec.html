@@ -27,13 +27,13 @@ contributors: Mozilla, Ecma International
         1. If IsStructurallyValidLanguageTag(_tag_) is *false*, throw a *RangeError* exception.
         1. Let _language_ be ? GetOption(_options_, `"language"`, `"string"`, *undefined*, *undefined*).
         1. If _language_ is not *undefined*, then
-          1. If _language_ does not match the `unicode_language_subtag` production, throw a *RangeError* exception.
+          1. If _language_ does not match the `unicode_language_subtag` production of the `unicode_language_id`, throw a *RangeError* exception.
         1. Let _script_ be ? GetOption(_options_, `"script"`, `"string"`, *undefined*, *undefined*).
         1. If _script_ is not *undefined*, then
-          1. If _script_ does not match the `unicode_script_subtag` production, throw a *RangeError* exception.
+          1. If _script_ does not match the `unicode_script_subtag` production of the `unicode_language_id`, throw a *RangeError* exception.
         1. Let _region_ be ? GetOption(_options_, `"region"`, `"string"`, *undefined*, *undefined*).
         1. If _region_ is not *undefined*, then
-          1. If _region_ does not match the `unicode_region_subtag` production, throw a *RangeError* exception.
+          1. If _region_ does not match the `unicode_region_subtag` production of the `unicode_language_id`, throw a *RangeError* exception.
         1. Set _tag_ to CanonicalizeUnicodeLocaleId(_tag_).
         1. If _language_ is not *undefined*,
           1. Assert: _tag_ matches the `unicode_locale_id` production.
@@ -404,7 +404,7 @@ contributors: Mozilla, Ecma International
           1. Throw a *TypeError* exception.
         1. Let _locale_ be _loc_.[[Locale]].
         1. Assert: _locale_ matches the `unicode_locale_id` production.
-        1. Return the substring of _locale_ corresponding to the `unicode_language_subtag` production.
+        1. Return the substring of _locale_ corresponding to the `unicode_language_subtag` production of the `unicode_language_id`.
       </emu-alg>
     </emu-clause>
 
@@ -418,7 +418,7 @@ contributors: Mozilla, Ecma International
         1. Let _locale_ be _loc_.[[Locale]].
         1. Assert: _locale_ matches the `unicode_locale_id` production.
         1. If _locale_ does not contain the `["-" unicode_script_subtag]` sequence, return *undefined*.
-        1. Return the substring of _locale_ corresponding to the `unicode_script_subtag` production.
+        1. Return the substring of _locale_ corresponding to the `unicode_script_subtag` production of the `unicode_language_id`.
       </emu-alg>
     </emu-clause>
 
@@ -432,7 +432,7 @@ contributors: Mozilla, Ecma International
         1. Let _locale_ be _loc_.[[Locale]].
         1. Assert: _locale_ matches the `unicode_locale_id` production.
         1. If _locale_ does not contain the `["-" unicode_region_subtag]` sequence, return *undefined*.
-        1. Return the substring of _locale_ corresponding to the `unicode_region_subtag` production.
+        1. Return the substring of _locale_ corresponding to the `unicode_region_subtag` production of the `unicode_language_id`.
       </emu-alg>
     </emu-clause>
   </emu-clause>
