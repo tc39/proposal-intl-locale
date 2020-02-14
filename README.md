@@ -30,7 +30,7 @@ console.log(loc.toString()); // "pl-u-ca-gregory-hc-h12"
 
 ### Implementation Status
 
-__Stage 3__
+__Stage 4__
 
 Implementation Progress
 
