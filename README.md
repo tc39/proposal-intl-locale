@@ -1,5 +1,7 @@
 # `Intl.Locale` API Specification [draft]
 
+![Stage 4](https://badges.aleen42.com/src/tc39_5.svg)
+
 ## Overview
 
 ### Motivation
